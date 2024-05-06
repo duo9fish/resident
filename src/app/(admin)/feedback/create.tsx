@@ -16,9 +16,9 @@ const CreateFormScreen = () => {
     const [title, setTitle] = useState('');
     const [comment, setComment] = useState('');
     const [date, setDate] = useState('');
-    const [status, setStatus] = useState('pending'); // Default status
+    const [status, setStatus] = useState('Processed'); // Default status
     const [category, setCategory] = useState(''); // Default status
-    const [solution, setSolution] = useState(''); //set null
+    const [solution, setSolution] = useState(''); 
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -44,6 +44,7 @@ const CreateFormScreen = () => {
             setComment(updatingFeedback.comment);
             setImage(updatingFeedback.image);
             setDate(updatingFeedback.date);
+            setSolution(updatingFeedback.solution);
         }
     },[updatingFeedback]);
 
@@ -70,6 +71,10 @@ const CreateFormScreen = () => {
             return false;
         }
         if (!comment) {
+            setErrors('Comment is required');
+            return false;
+        }
+        if (!solution) {
             setErrors('Comment is required');
             return false;
         }
@@ -113,68 +118,28 @@ const CreateFormScreen = () => {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
-                router.replace('/(user)/feedback/list/feedback');
+                router.replace('/(admin)/feedback/feedback');
 
             }
             
         });
     }
 
-    // Function to handle image selection from the device gallery
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
-
-    //Delete
-    const onDelete = () => {
-        deleteFeedback(feedback_id, {
-          onSuccess: () => {
-            resetFields();
-            //router.replace('/(user)/feedback/announcement');
-          },
-        });
-      };
-    //COnfirmDelete
-    const confirmDelete = () => {
-        Alert.alert('Confirm', 'Confirm to delete this feedback?', [
-            { text: 'Cancel' },
-            {
-                text: 'Delete',
-                style: 'destructive',
-
-                onPress: onDelete,
-            },
-
-        ]);
-    };
-
     //Render UI
     return (
         <View style={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Upload Feedback' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Propose Solution' : 'Raise Feedback' }} />
 
             {/* Announcement Image */}
             <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />
             {/* Upload image */}
-            <Text onPress={pickImage} style={styles.textButton}>
-                Select image(Optional)</Text>
+            <Text  style={styles.textButton}>
+                Image</Text>
 
             {/* Set Category     */}
             <Text style={styles.label}> Category</Text> 
-            <Picker selectedValue={category} onValueChange={itemValue => setCategory(itemValue)} style={styles.input}>
+            <Picker selectedValue={category} onValueChange={itemValue => setCategory(itemValue)} style={styles.input} enabled={false} >
                 <Picker.Item label="Maintenance Issues" value="Maintenance Issues" />
                 <Picker.Item label="Amenities Feedback" value="Amenities Feedback" />
                 <Picker.Item label="Security Concerns" value="Security Concerns" />
@@ -190,15 +155,28 @@ const CreateFormScreen = () => {
                 onChangeText={setTitle} //Updates title state on change
                 placeholder='Title'
                 style={styles.input}
+                editable={false} 
             />
 
-            {/* Announcement Content */}
+            {/* Feedback comment */}
             <Text style={styles.label}>Comment</Text>
             <TextInput
                 value={comment}
                 onChangeText={setComment} //Updates content state on change
                 placeholder='Feedback Comment'
+                
+                editable={false} 
                 style={styles.input}
+            />
+
+            {/* Solution for feedback */}
+            <Text style={styles.label}>Solution</Text>
+            <TextInput
+                value={solution}
+                onChangeText={setSolution} //Updates solution state on change
+                placeholder='Solution for feedback...'
+                style={styles.inputSolution}
+
             />
 
 
@@ -206,11 +184,13 @@ const CreateFormScreen = () => {
             {/* error Message for invalid input */}
             <Text style={{ color: 'red' }}>{errors}</Text>
 
-            <Button onPress={onSubmit} text={isUpdating ? 'Update' : 'Submit'} />
+            <Button onPress={onSubmit} text={isUpdating ? 'Submit' : 'Submit'} />
 
-            {isUpdating && (
+            {/* {isUpdating && (
                 <Text onPress={confirmDelete} style={styles.textButton}> Delete </Text>
-            )}
+            )} */}
+
+
         </View>
     )
 }
@@ -228,6 +208,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: 5,
         marginBottom: 20,
+        color: '#757474',
     },
     label: {
         color: 'black',
@@ -250,6 +231,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: Colors.light.tint,
         marginVertical: 10,
+    },
+    inputSolution:{
+        backgroundColor: "white",
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 5,
+        marginBottom: 20,
+        color: 'black',
     }
 })
 

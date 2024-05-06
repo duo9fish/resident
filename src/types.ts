@@ -34,6 +34,7 @@ export type Feedback = {
   date: string;
   status: string;
   category: string;
+  solution: string;
 };
 
 // export const BillingStatusList: BillingStatus[] = [

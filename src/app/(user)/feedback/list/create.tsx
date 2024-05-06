@@ -18,6 +18,7 @@ const CreateFormScreen = () => {
     const [date, setDate] = useState('');
     const [status, setStatus] = useState('pending'); // Default status
     const [category, setCategory] = useState(''); // Default status
+    const [solution, setSolution] = useState(''); //set null
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -91,7 +92,7 @@ const CreateFormScreen = () => {
         }
 
         // Save in the database
-        insertFeedback({ title, image, comment,date:currentdate,status,category}, {
+        insertFeedback({ title, image, comment,date:currentdate,status,category,solution}, {
             onSuccess: () => {
                 resetFields();
                 router.back();
@@ -108,7 +109,7 @@ const CreateFormScreen = () => {
         }
 
         //Save in the database
-        updateFeedback({ feedback_id,title, image, comment,date:currentdate,status, category}, {
+        updateFeedback({ feedback_id,title, image, comment,date:currentdate,status, category, solution}, {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
@@ -163,7 +164,7 @@ const CreateFormScreen = () => {
     return (
         <View style={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Upload Feedback' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Raise Feedback' }} />
 
             {/* Announcement Image */}
             <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />

@@ -71,7 +71,7 @@ export default function TabLayout() {
       {/* Hide top tab nav from display*/}
       <Tabs.Screen name='announcement' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='billing' options={{ href: null, headerShown: false, }} />
-      
+      <Tabs.Screen name='feedback' options={{ href: null, headerShown: false, }} />
 
     </Tabs>
 
