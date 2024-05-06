@@ -23,6 +23,8 @@ const CreateFormScreen = () => {
     //Update/Edit the announcement follow the id pass
     const { feedback_id: idString } = useLocalSearchParams();
     const feedback_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]);
+
+    
     
     //to differentiate the purpose whether update or add an announcement
     const isUpdating = !!feedback_id;
@@ -35,7 +37,7 @@ const CreateFormScreen = () => {
     useEffect(()=>{
         if(updatingFeedback){
             setTitle(updatingFeedback.title);
-            setComment(updatingFeedback.content);
+            setComment(updatingFeedback.comment);
             setImage(updatingFeedback.image);
             setDate(updatingFeedback.date);
         }
@@ -53,6 +55,7 @@ const CreateFormScreen = () => {
     const resetFields = () => {
         setTitle('');
         setComment('');
+        setImage('');
     }
 
     //Validate the input
@@ -66,11 +69,6 @@ const CreateFormScreen = () => {
             setErrors('Comment is required');
             return false;
         }
-        //not number
-        // if (isNaN(parseFloat(price))) {
-        //   setErrors('Price is not a number');
-        //   return false;
-        // }
         return true;
     };
 
@@ -84,8 +82,6 @@ const CreateFormScreen = () => {
 
     //Add new Announcement
     const onCreate = () => {
-
-        console.log("Inserting..");
 
         if (!validateInput()) {
             return;
@@ -104,8 +100,6 @@ const CreateFormScreen = () => {
     //Edit/Update announcement
     const onUpdate = () => {
 
-        
-
         if (!validateInput()) {
             return;
         }
@@ -115,7 +109,8 @@ const CreateFormScreen = () => {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
-                router.back();
+                router.replace('/(user)/feedback/list/feedback');
+
             }
             
         });
@@ -165,7 +160,7 @@ const CreateFormScreen = () => {
     return (
         <View style={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Upload A Feedback' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Upload Feedback' }} />
 
             {/* Announcement Image */}
             <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />

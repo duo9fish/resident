@@ -1,32 +1,29 @@
 import { FlatList, View, Text, Image, ActivityIndicator } from 'react-native';
-
 import React, { useEffect } from 'react';
 
 //import announcements from '@assets/data/announcement';
 // Importing the ModuleListItem component from its relative path
-import AnnouncementListItem from '@/components/AnnouncementListItem';
-import { useAnnouncementList } from '@/api/announcements';
+import FeedbackListItem from '@/components/FeedbackListItem';
+import { useFeedbackList } from '@/api/feedbacks';
 
-
-
-export default function AnnouncementScreen() {
-  const { data: announcements, error, isLoading } = useAnnouncementList();
+export default function FeedbackScreen() {
+  const { data: feedbacks, error, isLoading } = useFeedbackList();
 
   if (isLoading) {
     return <ActivityIndicator />
   }
 
   if (error) {
-    return <Text>Failed to fetch announcements</Text>
+    return <Text>Failed to fetch feedback</Text>
   }
 
   return (
     <View >
       <FlatList
-        data={announcements}
+        data={feedbacks}
         style={{ backgroundColor: 'white', }}
         //render all the item from module data
-        renderItem={({ item }) => <AnnouncementListItem announcements={item} />}
+        renderItem={({ item }) => <FeedbackListItem feedbacks={item} />}
       //numColumns={2}
       //contentContainerStyle={{ gap: 10 }}
       />

@@ -22,7 +22,7 @@ export const useFeedback = (feedback_id: number) => {
     return useQuery({
         queryKey: ['feedbacks', feedback_id],
         queryFn: async () => {
-            const { data, error } = await supabase.from('feedbacks').select('*').eq('id', feedback_id).single();
+            const { data, error } = await supabase.from('feedbacks').select('*').eq('feedback_id', feedback_id).single();
             if (error) {
                 throw new Error(error.message);
             }
@@ -64,7 +64,7 @@ export const useUpdateFeedback = () => {
             const { data, error } = await supabase
                 .from('feedbacks')
                 .update(update)
-                .eq('id', feedback_id)
+                .eq('feedback_id', feedback_id)
                 .select();
 
             if (error) {
@@ -84,7 +84,7 @@ export const useDeleteFeedback = () => {
   
     return useMutation({
       async mutationFn(feedback_id: number) {
-        const { error } = await supabase.from('feedbacks').delete().eq('id', feedback_id);
+        const { error } = await supabase.from('feedbacks').delete().eq('feedback_id', feedback_id);
         if (error) {
           throw new Error(error.message);
         }

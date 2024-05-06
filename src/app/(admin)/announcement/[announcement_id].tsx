@@ -19,14 +19,15 @@ const AnnouncementDetailScreen = () => {
 
     const defaultImage = 'https://i.imgur.com/v5uAST0.png';
 
-    if (!announcement) {
-        return <Text>Announcement Not Found</Text>
-    }
-
     if (isLoading) {
         return <ActivityIndicator />
     }
 
+    if (!announcement) {
+        return <Text>Announcement Not Found</Text>
+    }
+
+    
     if (error) {
         return <Text>Failed to fetch announcements</Text>
     }
