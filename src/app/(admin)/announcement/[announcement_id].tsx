@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
     container: {},
     image: {
         width: '100%',
-        height: 300, // Set a fixed height for the image container
-        //sada
+        height: 300, 
         resizeMode: 'contain',
     },
     desc: {
