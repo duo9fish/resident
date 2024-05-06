@@ -25,8 +25,11 @@ const segments = useSegments();
                 <View style={styles.desc }>
                     <Text style={styles.sender}>Sender: {feedbacks.feedback_id}</Text>
                     <Text style={styles.date}>{feedbacks.date}</Text>
-
                 </View>
+
+                <Text style={styles.title}>{feedbacks.category}</Text>
+                <Text style={styles.title}>status: {feedbacks.status}</Text>
+
                 <View style={styles.separator} />
 
 

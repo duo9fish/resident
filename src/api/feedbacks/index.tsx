@@ -43,6 +43,8 @@ export const useInsertFeedback = () => {
                 image: data.image,
                 comment: data.comment,
                 date: data.date,
+                status: data.status,
+                category: data.category,
             });
 
             if (error) {

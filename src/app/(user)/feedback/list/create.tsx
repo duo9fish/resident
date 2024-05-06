@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useFeedback, useDeleteFeedback, useInsertFeedback, useUpdateFeedback } from '@/api/feedbacks';
+import { Picker } from '@react-native-picker/picker';
 
 // Define the component for creating or updating a feedback
 const CreateFormScreen = () => {
@@ -15,6 +16,8 @@ const CreateFormScreen = () => {
     const [title, setTitle] = useState('');
     const [comment, setComment] = useState('');
     const [date, setDate] = useState('');
+    const [status, setStatus] = useState('pending'); // Default status
+    const [category, setCategory] = useState(''); // Default status
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -88,7 +91,7 @@ const CreateFormScreen = () => {
         }
 
         // Save in the database
-        insertFeedback({ title, image, comment,date:currentdate}, {
+        insertFeedback({ title, image, comment,date:currentdate,status,category}, {
             onSuccess: () => {
                 resetFields();
                 router.back();
@@ -105,7 +108,7 @@ const CreateFormScreen = () => {
         }
 
         //Save in the database
-        updateFeedback({ feedback_id,title, image, comment,date:currentdate}, {
+        updateFeedback({ feedback_id,title, image, comment,date:currentdate,status, category}, {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
@@ -166,7 +169,18 @@ const CreateFormScreen = () => {
             <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />
             {/* Upload image */}
             <Text onPress={pickImage} style={styles.textButton}>
-                Select image</Text>
+                Select image(Optional)</Text>
+
+            {/* Set Category     */}
+            <Text style={styles.label}> Category</Text> 
+            <Picker selectedValue={category} onValueChange={itemValue => setCategory(itemValue)} style={styles.input}>
+                <Picker.Item label="Maintenance Issues" value="Maintenance Issues" />
+                <Picker.Item label="Amenities Feedback" value="Amenities Feedback" />
+                <Picker.Item label="Security Concerns" value="Security Concerns" />
+                <Picker.Item label="Noise Complaints" value="Noise Complaints" />
+                <Picker.Item label="Billing and Payments" value="Billing and Payments" />
+                <Picker.Item label="Other Issues" value="Noise Complaints" />
+            </Picker>    
 
             {/* Announcement Title */}
             <Text style={styles.label}>Title</Text>

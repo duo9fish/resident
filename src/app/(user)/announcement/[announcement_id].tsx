@@ -20,18 +20,20 @@ const AnnouncementDetailScreen = () => {
     const defaultImage = 'https://i.imgur.com/RbQGLZK.png';
 
 
+    if (isLoading) {
+        return <ActivityIndicator />
+    }
+
     if (!announcement) {
         return <Text>Announcement Not Found</Text>
     }
 
-    if (isLoading) {
-        return <ActivityIndicator />
-      }
-    
-      if (error) {
+
+
+    if (error) {
         return <Text>Failed to fetch announcements</Text>
-      }
-    
+    }
+
 
     return (
         <View>
@@ -85,8 +87,5 @@ const styles = StyleSheet.create({
         color: '#111111',
     }
 })
-
-
-
 
 export default AnnouncementDetailScreen;
