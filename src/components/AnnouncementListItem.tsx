@@ -1,14 +1,17 @@
 import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
 import React from 'react';
-import { Announcement } from '../types';
+import {  Tables } from '../types';
 import { Link, useSegments } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
 // Define a TypeScript type for the props of ModuleListItem component
-type AnnouncementListItemProps = {
-    announcements: Announcement;
-}
+// type AnnouncementListItemProps = {
+//     announcements: Announcement;
+// }
 
+type AnnouncementListItemProps = {
+    announcements: Tables<'announcements'>;
+}
 
 
 //Define a functional component contain each modules

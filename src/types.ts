@@ -1,4 +1,9 @@
+import { Database } from './database.types';
 
+export type Tables<T extends keyof Database['public']['Tables']> =
+  Database['public']['Tables'][T]['Row'];
+export type Enums<T extends keyof Database['public']['Enums']> =
+  Database['public']['Enums'][T];
 
 export type Module = {
   id: number;
@@ -7,15 +12,15 @@ export type Module = {
   link: any;  
 };
 
-export type Announcement = {
-  announcement_id: number;
-  title: string;
-  image: string | null;
-  date: string;
-  sender: string;
-  content: string;
+// export type Announcement = {
+//   announcement_id: number;
+//   title: string;
+//   image: string | null;
+//   date: string;
+//   sender: string;
+//   content: string;
   
-};
+// };
 
 export type Billing = {
   id: number;
@@ -26,16 +31,16 @@ export type Billing = {
 
 };
 
-export type Feedback = {
-  feedback_id: number;
-  title: string; 
-  comment: string;
-  image: string | null;
-  date: string;
-  status: string;
-  category: string;
-  solution: string;
-};
+// export type Feedback = {
+//   feedback_id: number;
+//   title: string; 
+//   comment: string;
+//   image: string | null;
+//   date: string;
+//   status: string;
+//   category: string;
+//   solution: string;
+// };
 
 // export const BillingStatusList: BillingStatus[] = [
 //   'Unpaid',

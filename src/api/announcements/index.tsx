@@ -80,22 +80,6 @@ export const useUpdateAnnouncement = () => {
     });
 };
 
-// export const useDeleteAnnouncement = () => {
-//     const queryClient = useQueryClient();
-
-//     return useMutation({
-//         async mutationFn({ announcement_id }: Announcement) {
-//             await supabase
-//             .from('announcements')
-//             .delete()
-//             .eq('id', announcement_id)           
-//         },
-//         async onSuccess() {
-//             await queryClient.invalidateQueries({ queryKey: ['announcements'] });
-//         },
-//     });
-// };
-
 export const useDeleteAnnouncement = () => {
     const queryClient = useQueryClient();
   

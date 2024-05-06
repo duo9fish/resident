@@ -1,13 +1,16 @@
 import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
 import React from 'react';
-import { Feedback } from '../types';
+import {  Tables } from '../types';
 import { Link, useSegments } from 'expo-router';
 
 // Define a TypeScript type for the props of ModuleListItem component
-type FeedbackListItemProps = {
-    feedbacks: Feedback;
-}
+// type FeedbackListItemProps = {
+//     feedbacks: Feedback;
+// }
 
+type FeedbackListItemProps = {
+    feedbacks: Tables<'feedbacks'>;
+}
 
 //Define a functional component contain each modules
 const FeedbackListItem = ({ feedbacks }: FeedbackListItemProps) => {
