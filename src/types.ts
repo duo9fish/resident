@@ -1,0 +1,100 @@
+
+
+export type Module = {
+  id: number;
+  image: string | null;
+  name: string;
+  link: any;  
+};
+
+export type Announcement = {
+  announcement_id: number;
+  title: string;
+  image: string | null;
+  date: string;
+  sender: string;
+  content: string;
+  
+};
+
+export type Billing = {
+  id: number;
+  title: string;
+  price: number;
+  status: string;
+  due_date: string;
+
+};
+
+export type Feedback = {
+  feedback_id: number;
+  title: string; 
+  comment: string;
+  image: string | null;
+  date: string;
+  
+
+};
+
+// export const BillingStatusList: BillingStatus[] = [
+//   'Unpaid',
+//   'Paid',
+// ] 
+
+
+
+
+
+
+
+
+
+// export type Product = {
+//   id: number;
+//   image: string | null;
+//   name: string;
+//   price: number;
+// };
+
+// export type PizzaSize = 'S' | 'M' | 'L' | 'XL';
+
+// export type CartItem = {
+//   id: string;
+//   product: Product;
+//   product_id: number;
+//   size: PizzaSize;
+//   quantity: number;
+// };
+
+// export const OrderStatusList: OrderStatus[] = [
+//   'New',
+//   'Cooking',
+//   'Delivering',
+//   'Delivered',
+// ];
+
+// export type OrderStatus = 'New' | 'Cooking' | 'Delivering' | 'Delivered';
+
+// export type Order = {
+//   id: number;
+//   created_at: string;
+//   total: number;
+//   user_id: string;
+//   status: OrderStatus;
+
+//   order_items?: OrderItem[];
+// };
+
+// export type OrderItem = {
+//   id: number;
+//   product_id: number;
+//   products: Product;
+//   order_id: number;
+//   size: PizzaSize;
+//   quantity: number;
+// };
+
+// export type Profile = {
+//   id: string;
+//   group: string;
+// };
