@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TextInput, Image, Alert } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Image, Alert, ScrollView } from 'react-native'
 import React from 'react'
 import Button from '@/components/Button'; // Import custom button
 import Colors from '@/constants/Colors';
@@ -43,8 +43,8 @@ const CreateFormScreen = () => {
             setTitle(updatingFeedback.title);
             setComment(updatingFeedback.comment);
             setImage(updatingFeedback.image);
-            setDate(updatingFeedback.date);
-            setSolution(updatingFeedback.solution);
+            setDate(updatingFeedback.date?? '');
+            setSolution(updatingFeedback.solution?? '');
         }
     },[updatingFeedback]);
 
@@ -127,7 +127,7 @@ const CreateFormScreen = () => {
 
     //Render UI
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
 
             <Stack.Screen options={{ title: isUpdating ? 'Propose Solution' : 'Raise Feedback' }} />
 
@@ -145,7 +145,7 @@ const CreateFormScreen = () => {
                 <Picker.Item label="Security Concerns" value="Security Concerns" />
                 <Picker.Item label="Noise Complaints" value="Noise Complaints" />
                 <Picker.Item label="Billing and Payments" value="Billing and Payments" />
-                <Picker.Item label="Other Issues" value="Noise Complaints" />
+                <Picker.Item label="Other Issues" value="Other Issues" />
             </Picker>    
 
             {/* Announcement Title */}
@@ -191,14 +191,14 @@ const CreateFormScreen = () => {
             )} */}
 
 
-        </View>
+        </ScrollView>
     )
 }
 
 //Style
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: 'center',
         padding: 10,
     },

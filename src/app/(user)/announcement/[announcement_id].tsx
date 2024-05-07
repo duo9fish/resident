@@ -4,6 +4,7 @@ import { FlatList, View, Text, Image, StyleSheet, ActivityIndicator } from 'reac
 //import announcements from '@assets/data/announcement';
 
 import { useAnnouncement } from '@/api/announcements';
+import RemoteImage from '@/components/RemoteImage';
 
 
 // Announcement Details Page
@@ -17,7 +18,7 @@ const AnnouncementDetailScreen = () => {
 
     //const announcement = announcements.find((a) => a.id.toString() == announcement_id) //dummy
 
-    const defaultImage = 'https://i.imgur.com/RbQGLZK.png';
+    const defaultImage = 'null';
 
 
     if (isLoading) {
@@ -47,7 +48,7 @@ const AnnouncementDetailScreen = () => {
             </View>
             <Text>ann: {announcement_id}</Text>
             <Text>{announcement.content}</Text>
-            <Image source={{ uri: announcement.image || defaultImage }} style={styles.image}></Image>
+            <RemoteImage path={announcement?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
 
         </View>
 

@@ -4,6 +4,7 @@ import { FlatList, View, Text, Image, StyleSheet, ActivityIndicator, Pressable }
 import { useFeedback } from '@/api/feedbacks';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
+import RemoteImage from '@/components/RemoteImage';
 
 
 // Feedback Details Page
@@ -16,7 +17,7 @@ const FeedbackDetailScreen = () => {
     const feedback_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
     const { data: feedback, error, isLoading } = useFeedback(feedback_id);
 
-    const defaultImage = 'https://i.imgur.com/RbQGLZK.png';
+    const defaultImage = 'null';
 
 
 
@@ -52,6 +53,7 @@ const FeedbackDetailScreen = () => {
                         </Link>
                     )
                 }} />
+                
             <Stack.Screen options={{ title: feedback?.title }} />
             <Text style={styles.title}>{feedback.title}</Text>
 
@@ -62,7 +64,12 @@ const FeedbackDetailScreen = () => {
             </View>
             <Text>ann: {feedback_id}</Text>
             <Text>{feedback.comment}</Text>
-            <Image source={{ uri: feedback.image || defaultImage }} style={styles.image}></Image>
+
+            {/* Only show the solution if status is "processed" */}
+            {feedback.status === 'Processed' && (
+                <Text>{feedback.solution}</Text>
+            )}
+            <RemoteImage path={feedback?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
 
         </View>
 

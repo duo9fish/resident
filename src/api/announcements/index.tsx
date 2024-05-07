@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Announcement } from "@/types";
+//import { Announcement } from "@/types";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -37,7 +37,7 @@ export const useInsertAnnouncement = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        async mutationFn(data: Omit<Announcement, 'announcement_id'>) {
+        async mutationFn(data: any) {
             const { error } = await supabase.from('announcements').insert({
                 title: data.title,
                 image: data.image,
@@ -61,7 +61,7 @@ export const useUpdateAnnouncement = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        async mutationFn({ announcement_id, ...update }: Announcement) {
+        async mutationFn({ announcement_id, ...update }: any) {
             const { data, error } = await supabase
                 .from('announcements')
                 .update(update)

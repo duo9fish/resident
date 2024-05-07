@@ -7,6 +7,13 @@ import * as ImagePicker from 'expo-image-picker';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useAnnouncement, useDeleteAnnouncement, useInsertAnnouncement, useUpdateAnnouncement } from '@/api/announcements';
+import * as FileSystem from'expo-file-system';
+import { decode } from 'base64-arraybuffer';
+import { supabase } from '@/lib/supabase';
+
+import uuid from 'react-native-uuid';
+uuid.v4(); //
+
 
 // Define the component for creating or updating product announcements
 const CreateAnnouncementScreen = () => {
@@ -41,7 +48,7 @@ const CreateAnnouncementScreen = () => {
             setSender(updatingAnnouncement.sender);
             setContent(updatingAnnouncement.content);
             setImage(updatingAnnouncement.image);
-            setDate(updatingAnnouncement.date);
+            setDate(updatingAnnouncement.date?? '');
         }
     },[updatingAnnouncement]);
 
@@ -75,11 +82,6 @@ const CreateAnnouncementScreen = () => {
             setErrors('Sender is required');
             return false;
         }
-        //not number
-        // if (isNaN(parseFloat(price))) {
-        //   setErrors('Price is not a number');
-        //   return false;
-        // }
         return true;
     };
 
@@ -92,13 +94,15 @@ const CreateAnnouncementScreen = () => {
     }
 
     //Add new Announcement
-    const onCreate = () => {
+    const onCreate = async () => {
         if (!validateInput()) {
             return;
         }
 
+        const imagePath = await uploadImage();
+
         // Save in the database
-        insertAnnouncement({ title, image, sender, content,date:currentdate}, {
+        insertAnnouncement({ title, image: imagePath, sender, content,date:currentdate}, {
             onSuccess: () => {
                 resetFields();
                 router.back();
@@ -163,6 +167,25 @@ const CreateAnnouncementScreen = () => {
 
         ]);
     };
+
+    const uploadImage = async () => {
+        if (!image?.startsWith('file://')) {
+          return;
+        }
+      
+        const base64 = await FileSystem.readAsStringAsync(image, {
+          encoding: 'base64',
+        });
+        const filePath = `${uuid.v4()}.png`;
+        const contentType = 'image/png';
+        const { data, error } = await supabase.storage
+          .from('announcement-images')
+          .upload(filePath, decode(base64), { contentType });
+      
+        if (data) {
+          return data.path;
+        }
+      };
 
     //Render UI
     return (

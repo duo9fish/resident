@@ -3,6 +3,7 @@ import React from 'react';
 import {  Tables } from '../types';
 import { Link, useSegments } from 'expo-router';
 import { useColorScheme } from 'react-native';
+import RemoteImage from './RemoteImage';
 
 // Define a TypeScript type for the props of ModuleListItem component
 // type AnnouncementListItemProps = {

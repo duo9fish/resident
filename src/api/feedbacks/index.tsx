@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
-import { Feedback } from "@/types";
+//import { Feedback } from "@/types";
+import {  Tables } from '@/types';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -37,7 +38,7 @@ export const useInsertFeedback = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        async mutationFn(data: Omit<Feedback, 'feedback_id'>) {
+        async mutationFn(data: any) {
             const { error } = await supabase.from('feedbacks').insert({
                 title: data.title,
                 image: data.image,
@@ -63,7 +64,7 @@ export const useUpdateFeedback = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        async mutationFn({ feedback_id, ...update }: Feedback) {
+        async mutationFn({ feedback_id, ...update }: any) {
             const { data, error } = await supabase
                 .from('feedbacks')
                 .update(update)

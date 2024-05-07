@@ -4,7 +4,7 @@ import { FlatList, View, Text, Image, StyleSheet, Pressable, ActivityIndicator }
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { useAnnouncement } from '@/api/announcements';
-
+import RemoteImage from '@/components/RemoteImage';
 
 // Announcement Details Page
 
@@ -17,7 +17,7 @@ const AnnouncementDetailScreen = () => {
 
     //const announcement = announcements.find((a) => a.id.toString() == announcement_id)
 
-    const defaultImage = 'https://i.imgur.com/v5uAST0.png';
+    const defaultImage = 'null';
 
     if (isLoading) {
         return <ActivityIndicator />
@@ -63,7 +63,8 @@ const AnnouncementDetailScreen = () => {
             </View>
             <Text>ann: {announcement_id}</Text>
             <Text>{announcement.content}</Text>
-            <Image source={{ uri: announcement.image || defaultImage }} style={styles.image}></Image>
+
+            <RemoteImage path={announcement?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
 
         </View>
 

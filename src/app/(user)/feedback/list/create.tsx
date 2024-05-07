@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TextInput, Image, Alert } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Image, Alert, ScrollView } from 'react-native'
 import React from 'react'
 import Button from '@/components/Button'; // Import custom button
 import Colors from '@/constants/Colors';
@@ -8,6 +8,13 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useFeedback, useDeleteFeedback, useInsertFeedback, useUpdateFeedback } from '@/api/feedbacks';
 import { Picker } from '@react-native-picker/picker';
+
+//Upload image to database
+import uuid from 'react-native-uuid';
+import { supabase } from '@/lib/supabase';
+import { decode } from 'base64-arraybuffer';
+import * as FileSystem from 'expo-file-system';
+uuid.v4(); //
 
 // Define the component for creating or updating a feedback
 const CreateFormScreen = () => {
@@ -43,7 +50,7 @@ const CreateFormScreen = () => {
             setTitle(updatingFeedback.title);
             setComment(updatingFeedback.comment);
             setImage(updatingFeedback.image);
-            setDate(updatingFeedback.date);
+            setDate(updatingFeedback.date?? '');
         }
     },[updatingFeedback]);
 
@@ -85,14 +92,16 @@ const CreateFormScreen = () => {
     }
 
     //Add new Announcement
-    const onCreate = () => {
+    const onCreate = async () => {
 
         if (!validateInput()) {
             return;
         }
 
+        const imagePath = await uploadImage();
+
         // Save in the database
-        insertFeedback({ title, image, comment,date:currentdate,status,category,solution}, {
+        insertFeedback({ title, image: imagePath, comment,date:currentdate,status,category,solution}, {
             onSuccess: () => {
                 resetFields();
                 router.back();
@@ -107,6 +116,7 @@ const CreateFormScreen = () => {
         if (!validateInput()) {
             return;
         }
+
 
         //Save in the database
         updateFeedback({ feedback_id,title, image, comment,date:currentdate,status, category, solution}, {
@@ -160,11 +170,32 @@ const CreateFormScreen = () => {
         ]);
     };
 
+    const uploadImage = async () => {
+        if (!image?.startsWith('file://')) {
+          return;
+        }
+      
+        const base64 = await FileSystem.readAsStringAsync(image, {
+          encoding: 'base64',
+        });
+        const filePath = `${uuid.v4()}.png`;
+        const contentType = 'image/png';
+        const { data, error } = await supabase.storage
+          .from('announcement-images')
+          .upload(filePath, decode(base64), { contentType });
+      
+        if (data) {
+          return data.path;
+        }
+      };
+
+
     //Render UI
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
 
             <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Raise Feedback' }} />
+            
 
             {/* Announcement Image */}
             <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />
@@ -180,7 +211,7 @@ const CreateFormScreen = () => {
                 <Picker.Item label="Security Concerns" value="Security Concerns" />
                 <Picker.Item label="Noise Complaints" value="Noise Complaints" />
                 <Picker.Item label="Billing and Payments" value="Billing and Payments" />
-                <Picker.Item label="Other Issues" value="Noise Complaints" />
+                <Picker.Item label="Other Issues" value="Other Issues" />
             </Picker>    
 
             {/* Announcement Title */}
@@ -211,16 +242,18 @@ const CreateFormScreen = () => {
             {isUpdating && (
                 <Text onPress={confirmDelete} style={styles.textButton}> Delete </Text>
             )}
-        </View>
+        </ScrollView>
     )
 }
 
 //Style
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1, // Add this line to make the ScrollView fill the available height
+        //flex: 1,
         justifyContent: 'center',
         padding: 10,
+        paddingBottom: 30,
     },
     input: {
         backgroundColor: "white",
