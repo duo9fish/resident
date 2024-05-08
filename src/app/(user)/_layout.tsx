@@ -8,6 +8,7 @@ import { useColorScheme } from '@components/useColorScheme';
 import { useClientOnlyValue } from '../../components/useClientOnlyValue';
 import { useAuth } from '@/providers/AuthProvider';
 
+
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -56,10 +57,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
         }}
       />
   {/* Hide modules from display*/ }

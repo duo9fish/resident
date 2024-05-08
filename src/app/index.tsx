@@ -34,7 +34,7 @@ const index = () => {
         <Button text="Sign in" />
       </Link> */}
 
-      <Button onPress={()=> supabase.auth.signOut}  text="Sign Out" />
+      <Button onPress={()=> supabase.auth.signOut()}  text="Sign Out" />
     </View>
   );
 };
