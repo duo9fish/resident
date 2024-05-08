@@ -4,7 +4,7 @@ import React from 'react'
 import Button from '@/components/Button'; // Import custom button
 import Colors from '@/constants/Colors';
 import * as ImagePicker from 'expo-image-picker';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useFeedback, useDeleteFeedback, useInsertFeedback, useUpdateFeedback } from '@/api/feedbacks';
 import { Picker } from '@react-native-picker/picker';
@@ -103,7 +103,7 @@ const CreateFormScreen = () => {
         insertFeedback({ title, image: imagePath, comment,date:currentdate,status,category,solution}, {
             onSuccess: () => {
                 resetFields();
-                router.back();
+                <Redirect href={'/(user)/feedback/list/feedback'}/>
             }
         });
 
@@ -123,7 +123,7 @@ const CreateFormScreen = () => {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
-                router.replace('/(user)/feedback/list/feedback');
+                <Redirect href={'/(user)/feedback/list/feedback'}/>
 
             }
             

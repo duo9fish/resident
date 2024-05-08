@@ -27,14 +27,14 @@ export type Module = {
 
 // };
 
-export type Billing = {
-  id: number;
-  title: string;
-  price: number;
-  status: string;
-  due_date: string;
+// export type Billing = {
+//   id: number;
+//   title: string;
+//   price: number;
+//   status: string;
+//   due_date: string;
 
-};
+// };
 
 // export type Feedback = {
 //   feedback_id: number;

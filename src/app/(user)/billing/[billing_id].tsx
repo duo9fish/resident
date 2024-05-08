@@ -1,26 +1,35 @@
-import { Stack, router, useLocalSearchParams } from 'expo-router';
-import { FlatList, View, Text, Image, StyleSheet } from 'react-native';
+import { Link, Stack, router, useLocalSearchParams } from 'expo-router';
+import { FlatList, View, Text, Image, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 
 import billings from '@assets/data/billing';
 import Button from '@/components/Button';
+import { FontAwesome } from '@expo/vector-icons';
+import Colors from '@/constants/Colors';
+
+import { useBilling } from '@/api/billings';
 
 // Announcement Details Page
 
 const BillingDetailScreen = () => {
 
-    //access the specific announcement which user want to read
-    const { billing_id } = useLocalSearchParams();
-    const billing = billings.find((b) => b.id.toString() == billing_id)
+    //access the specific billing which user want to read
+    const { billing_id:idString } = useLocalSearchParams();
+    const billing_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
+    const { data: billing, error, isLoading } = useBilling(billing_id);
 
     const addToPayment = () => {
         if (!billing) {
             return;
         }
-        console.warn("Adding to Payment", billing)
+        //console.warn("Adding to Payment", billing)
         //router.push('/cart');
     }
 
+    const defaultImage = 'null';
 
+    if (isLoading) {
+        return <ActivityIndicator />
+    }
 
     if (!billing) {
         return <Text>Billing Not Found</Text>
@@ -29,6 +38,10 @@ const BillingDetailScreen = () => {
     return (
 
         <View style={{ backgroundColor: 'white' }}>
+             <Stack.Screen
+                options={{
+                    title: 'Billing'
+                }} />
             <Stack.Screen options={{ title: billing?.title }} />
             <Text>ID: {billing_id}</Text>
 

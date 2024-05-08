@@ -1,14 +1,13 @@
 import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
 import React from 'react';
-import { Billing } from '../types';
+import { Tables } from '../types';
 import { Link,useSegments } from 'expo-router';
-import { useColorScheme } from 'react-native';
+
 
 // Define a TypeScript type for the props of ModuleListItem component
 type BillingListItemProps = {
-    billings: Billing;
+    billings: Tables<'billings'>;
 }
-
 
 
 //Define a functional component contain each modules
@@ -19,14 +18,14 @@ const BillingListItem = ({ billings }: BillingListItemProps) => {
     
 
     return (
-        <Link href={`/${segments[0]}/billing/${billings.id}` as  `${string}:${string}`} asChild>
+        <Link href={`/${segments[0]}/billing/${billings.billing_id}` as  `${string}:${string}`} asChild>
             
         
             <Pressable style={styles.container}>
                 <Text style={styles.title}>Status: {billings.status}</Text>
                 
                 <Text style={styles.title}>{billings.title}</Text>
-                <Text style={styles.title}>2002540{billings.id}</Text>
+                <Text style={styles.title}>2002540{billings.billing_id}</Text>
 
                 <View style={styles.desc }>
                     <Text style={styles.sender}> Pay by {billings.due_date}</Text>
