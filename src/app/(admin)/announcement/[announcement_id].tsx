@@ -64,7 +64,11 @@ const AnnouncementDetailScreen = () => {
             <Text>ann: {announcement_id}</Text>
             <Text>{announcement.content}</Text>
 
-            <RemoteImage path={announcement?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
+            <RemoteImage 
+                path={announcement?.image || defaultImage} 
+                fallback={defaultImage} 
+                style={styles.image}
+            />
 
         </View>
 

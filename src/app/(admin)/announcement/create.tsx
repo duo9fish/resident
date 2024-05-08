@@ -12,6 +12,7 @@ import { decode } from 'base64-arraybuffer';
 import { supabase } from '@/lib/supabase';
 
 import uuid from 'react-native-uuid';
+import RemoteImage from '@/components/RemoteImage';
 uuid.v4(); //
 
 
@@ -24,6 +25,7 @@ const CreateAnnouncementScreen = () => {
     const [content, setContent] = useState('');
     const [date, setDate] = useState('');
     
+    const defaultImage = 'null';
 
 
     const [errors, setErrors] = useState('');// validation purpose
@@ -112,13 +114,15 @@ const CreateAnnouncementScreen = () => {
     };
 
     //Edit/Update announcement
-    const onUpdate = () => {
+    const onUpdate = async () => {
         if (!validateInput()) {
             return;
         }
 
+        const imagePath = await uploadImage();
+
         //Save in the database
-        updateAnnouncement({ announcement_id,title, image, sender, content,date:currentdate}, {
+        updateAnnouncement({ announcement_id,title, image:imagePath, sender, content,date:currentdate}, {
             onSuccess: () => {
                 console.log(announcement_id);
                 resetFields();
@@ -194,7 +198,7 @@ const CreateAnnouncementScreen = () => {
             <Stack.Screen options={{ title: isUpdating ? 'Update Announcement' : 'Add Announcement' }} />
 
             {/* Announcement Image */}
-            <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />
+            <RemoteImage path={image || defaultImage} fallback={defaultImage} style={styles.image}/>
             {/* Upload image */}
             <Text onPress={pickImage} style={styles.textButton}>
                 Select image</Text>

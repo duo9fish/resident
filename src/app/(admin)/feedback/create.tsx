@@ -8,6 +8,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useFeedback, useDeleteFeedback, useInsertFeedback, useUpdateFeedback } from '@/api/feedbacks';
 import { Picker } from '@react-native-picker/picker';
+import RemoteImage from '@/components/RemoteImage';
 
 // Define the component for creating or updating a feedback
 const CreateFormScreen = () => {
@@ -28,7 +29,7 @@ const CreateFormScreen = () => {
     const { feedback_id: idString } = useLocalSearchParams();
     const feedback_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]);
 
-    
+    const defaultImage = 'null';
     
     //to differentiate the purpose whether update or add an announcement
     const isUpdating = !!feedback_id;
@@ -132,7 +133,9 @@ const CreateFormScreen = () => {
             <Stack.Screen options={{ title: isUpdating ? 'Propose Solution' : 'Raise Feedback' }} />
 
             {/* Announcement Image */}
-            <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} />
+            {/* <Image source={{ uri: image || 'https://i.imgur.com/xL5dgei.png' }} style={styles.image} /> */}
+            <RemoteImage path={image || defaultImage} fallback={defaultImage} style={styles.image}/>
+            
             {/* Upload image */}
             <Text  style={styles.textButton}>
                 Image</Text>

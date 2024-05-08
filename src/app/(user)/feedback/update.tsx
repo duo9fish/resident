@@ -111,15 +111,16 @@ const CreateFormScreen = () => {
     };
 
     //Edit/Update announcement
-    const onUpdate = () => {
+    const onUpdate = async () => {
 
         if (!validateInput()) {
             return;
         }
+        const imagePath = await uploadImage();
 
 
         //Save in the database
-        updateFeedback({ feedback_id,title, image, comment,date:currentdate,status, category, solution}, {
+        updateFeedback({ feedback_id,title, image:imagePath, comment,date:currentdate,status, category, solution}, {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
