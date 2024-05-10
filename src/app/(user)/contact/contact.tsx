@@ -1,60 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useContactList } from '@/api/contacts'; // Make sure to import the useContactList hook
 
-//test
 const ContactList = () => {
-  const contactData = [
-    {
-      id: 1,
-      title: 'PV12 Management',
-      icon: 'phone-alt',
-      number: '03-4145 0250',
-      category: 'EMERGENCY',
-    },
-    {
-      id: 2,
-      title: 'Police Setapak',
-      icon: 'car',
-      number: '03-4023 2222',
-      category: 'EMERGENCY',
-    },
-    {
-      id: 3,
-      title: 'Columbia Asia Hospital Setapak',
-      icon: 'hospital',
-      number: '03-4145 9999',
-      category: 'GENERAL',
-    },
-    {
-      id: 4,
-      title: 'Malaysian Red Crescent',
-      icon: 'plus-circle',
-      number: '03-2142 8122',
-      category: 'GENERAL',
-    },
-    {
-      id: 5,
-      title: 'Malaysian Red Crescent',
-      icon: 'plus-circle',
-      number: '03-2141 8227',
-      category: 'GENERAL',
-    },
-    {
-      id: 6,
-      title: 'Civil Defence Ambulance',
-      icon: 'ambulance',
-      number: '03-2687 1400',
-      category: 'GENERAL',
-    },
-    {
-      id: 7,
-      title: 'Fire Fighting Setapak',
-      icon: 'fire-extinguisher',
-      number: '03-4023 5544',
-      category: 'GENERAL',
-    },
-  ];
+  const { data: contacts, error, isLoading } = useContactList(); // Use the useContactList hook to fetch contacts
 
   const handleCallPress = (phoneNumber: string) => {
     const url = `tel:${phoneNumber}`;
@@ -74,22 +24,28 @@ const ContactList = () => {
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>EMERGENCY</Text>
       </View>
-      {contactData.map((contact) => (
-        <View key={contact.id} style={styles.contactContainer}>
-          <View style={styles.iconContainer}>
-            <FontAwesome5 name={contact.icon} size={24} color="#fff" />
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : error ? (
+        <Text>Error: {error.message}</Text>
+      ) : (
+        contacts?.map((contact) => (
+          <View key={contact.contact_id} style={styles.contactContainer}>
+            <View style={styles.iconContainer}>
+              <FontAwesome5 name={contact.icon} size={24} color="#fff" />
+            </View>
+            <View style={styles.detailsContainer}>
+              <Text style={styles.title}>{contact.title}</Text>
+              {contact.number && <Text style={styles.number}>{contact.number}</Text>}
+            </View>
+            {contact.number && (
+              <TouchableOpacity style={styles.callButton} onPress={() => handleCallPress(contact.number)}>
+                <FontAwesome5 name="phone-alt" size={24} color="#fff" />
+              </TouchableOpacity>
+            )}
           </View>
-          <View style={styles.detailsContainer}>
-            <Text style={styles.title}>{contact.title}</Text>
-            {contact.number && <Text style={styles.number}>{contact.number}</Text>}
-          </View>
-          {contact.number && (
-            <TouchableOpacity style={styles.callButton} onPress={() => handleCallPress(contact.number)}>
-              <FontAwesome5 name="phone-alt" size={24} color="#fff" />
-            </TouchableOpacity>
-          )}
-        </View>
-      ))}
+        ))
+      )}
     </ScrollView>
   );
 };
