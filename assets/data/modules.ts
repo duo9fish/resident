@@ -51,7 +51,7 @@ const modules = [
     name: 'Contacts',
     image:
       'https://i.imgur.com/cD4O9Ja.png',
-      link: '',
+      link: 'contact',
   },
   // {
   //   //Info
