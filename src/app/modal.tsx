@@ -29,7 +29,7 @@ const AboutUsScreen = () => {
       <Text style={styles.text}>3. Community Notices: Stay updated with the latest community news and events.</Text>
       <Text style={styles.text}>4. Document Access: Retrieve condominium documents, like policies and meeting minutes, anytime.</Text>
       <Text style={styles.text}>5. Emergency COntact: Can directly call to management, fire fighter, hospital and polis.</Text>
-      <Text style={styles.text}>6. Visitor Pass Login: Let resident request for their friend as a vistor to management.</Text>
+      <Text style={styles.text}>6. Visitor Pass Login: Let resident request for their friend as a vistor to come into PV12 Condominium.</Text>
 
       <Text style={styles.subHeading}>Meet Our Team</Text>
       <Text style={styles.text}>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 20,
     lineHeight: 24
   },
   Image: {
