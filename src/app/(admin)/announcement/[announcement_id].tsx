@@ -55,7 +55,7 @@ const AnnouncementDetailScreen = () => {
                                     <FontAwesome
                                         name="pencil"
                                         size={25}
-                                        color={Colors.light.tint}
+                                        color={Colors.dark.tint}
                                         style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                                     />
                                 )}
