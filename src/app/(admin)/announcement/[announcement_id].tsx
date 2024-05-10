@@ -63,8 +63,9 @@ const AnnouncementDetailScreen = () => {
                         </Link>
                     ),
                     headerStyle: {
-                        backgroundColor: '#2EAED1',
+                        backgroundColor: Colors.light.tint,
                     },
+                    headerTintColor: 'white',
                 }} />
             <Stack.Screen options={{ title: announcement?.title }} />
             {hasImage && (
