@@ -202,7 +202,10 @@ const CreateAnnouncementScreen = () => {
     return (
         <View style={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Update Announcement' : 'Add Announcement' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Update Announcement' : 'Add Announcement', headerStyle: {
+                        backgroundColor: Colors.light.tint,
+                    },
+                    headerTintColor: 'white', }} />
 
             {/* Announcement Image */}
             <RemoteImage path={image || 'https://i.imgur.com/xL5dgei.png'} fallback={image ||'https://i.imgur.com/xL5dgei.png'} style={styles.image}/>
