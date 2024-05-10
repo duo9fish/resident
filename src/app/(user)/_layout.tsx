@@ -68,6 +68,7 @@ export default function TabLayout() {
   <Tabs.Screen name='billing' options={{href: null ,headerShown: false,}}/>
   <Tabs.Screen name='feedback' options={{href: null ,headerShown: false,}}/>
   <Tabs.Screen name='visitor' options={{href: null ,headerShown: false,}}/>
+  <Tabs.Screen name='facility' options={{href: null ,headerShown: false,}}/>
   
       
     </Tabs>

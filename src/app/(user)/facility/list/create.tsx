@@ -6,7 +6,7 @@ import Colors from '@/constants/Colors';
 import * as ImagePicker from 'expo-image-picker';
 import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { useVisitor, useDeleteVisitor, useInsertVisitor, useUpdateVisitor } from '@/api/visitors';
+import { useFacility, useDeleteFacility, useInsertFacility, useUpdateFacility } from '@/api/facilities';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { supabase } from '@/lib/supabase';
@@ -17,75 +17,78 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const CreateFormScreen = () => {
 
     // State variables for title, sender, and content of the announcement
-    const [name, setName] = useState('');
-    const [vehicle_number, setVehicleNumber] = useState('');
-
-    const [contact_number, setContactNo] = useState(''); // Default status
-    const [type, setType] = useState(''); // Default status
-    const [status, setStatus] = useState('Pending'); //set null
+    const [start_time, setStartTime] = useState(new Date());
+    const [end_time, setEndTime] = useState(new Date());
     const [date, setDate] = useState(new Date());
+    const [status, setStatus] = useState('Pending');
+    const [type, setType] = useState('');
+    const [no_of_pax, setNoOfPax] = useState('');
+
     const [formattedDate, setFormattedDate] = useState(date.toLocaleDateString()); // State for the formatted date string
+    const [formattedStartTime, setFormattedStartTime] = useState(start_time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // State for the formatted date string
+    const [formattedEndTime, setFormattedEndTime] = useState(end_time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // State for the formatted date string
     const [showDatePicker, setShowDatePicker] = useState(false);
+
+    
+
+    const [showStartTimePicker, setShowStartTimePicker] = useState(false);
+    const [showEndTimePicker, setShowEndTimePicker] = useState(false);
 
     const [errors, setErrors] = useState('');// validation purpose
 
     //Update/Edit the announcement follow the id pass
-    const { visitor_id: idString } = useLocalSearchParams();
-    //const visitor_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]); //ignore
-    //Safely parse the announcement ID from query parameters
-    let visitor_id = 0; // Default value if no valid id is found
+    const { facility_id: idString } = useLocalSearchParams();
+    let facility_id = 0;
     if (Array.isArray(idString)) {
-        visitor_id = parseFloat(idString[0] || '0');
+        facility_id = parseFloat(idString[0] || '0');
     } else if (typeof idString === 'string') {
-        visitor_id = parseFloat(idString);
+        facility_id = parseFloat(idString);
     }
 
     
     
     //to differentiate the purpose whether update or add an announcement
-    const isUpdating = !!visitor_id;
+    const isUpdating = !!facility_id;
 
-    const { mutate: insertVisitor } = useInsertVisitor();
-    const { mutate: updateVisitor } = useUpdateVisitor();
-    const {data: updatingVisitor}= useVisitor(visitor_id);
-    const {mutate:deleteVisitor} = useDeleteVisitor();
+    const { mutate: insertFacility } = useInsertFacility();
+    const { mutate: updateFacility } = useUpdateFacility();
+    const { data: updatingFacility } = useFacility(facility_id);
+    const { mutate: deleteFacility } = useDeleteFacility();
 
-    useEffect(()=>{
-        if(updatingVisitor){
-            setName(updatingVisitor.name);
-            setVehicleNumber(updatingVisitor.vehicle_number?? '');
-            setContactNo(updatingVisitor.contact_number);
-            //setDate(updatingVisitor.date?? '');
-            setType(updatingVisitor.type?? '');
+
+    useEffect(() => {
+        if (updatingFacility) {
+            //setName(updatingFacility.name);
+            setType(updatingFacility.type || '');
+            setStatus(updatingFacility.status|| '');
+            setNoOfPax(updatingFacility.no_of_pax|| '');
         }
-    },[updatingVisitor]);
-
+    }, [updatingFacility]);
 
     const router = useRouter();
 
     // Extract the date and time now
     const now = new Date();
-    const currentdate = now.toLocaleDateString();
     //const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
 
-    // Function to reset all input fields
     const resetFields = () => {
-        setName('');
-        setVehicleNumber('');
-        setContactNo('');
         setType('');
+        setStatus('Pending');
+        setNoOfPax('');
         setDate(new Date());
-    }
+        setStartTime(new Date());
+        setEndTime(new Date());
+    };
 
     //Validate the input
     const validateInput = () => {
         setErrors(''); //reset input field that not validate
-        if (!name) {
-            setErrors('Title is required');
+        if (!no_of_pax) {
+            setErrors('No of pax is required');
             return false;
         }
-        if (!contact_number) {
-            setErrors('Contact number is required');
+        if (isNaN(parseFloat(no_of_pax))) {
+            setErrors('No of pax is not a number');
             return false;
         }
         if (!type) {
@@ -111,9 +114,10 @@ const CreateFormScreen = () => {
         }
 
         // Save in the database
-        insertVisitor({ name, vehicle_number, contact_number,date:formattedDate,status,type}, {
+        insertFacility({ start_time:formattedStartTime, end_time:formattedEndTime, date:formattedDate, status, type, no_of_pax }, {
             onSuccess: () => {
                 resetFields();
+                Alert.alert('Success', 'Facility created successfully');
             }
         });
 
@@ -125,9 +129,9 @@ const CreateFormScreen = () => {
             return;
         }
         //Save in the database
-        updateVisitor({ visitor_id,name, vehicle_number, contact_number,date:formattedDate,status,type}, {
+        updateFacility({ facility_id, start_time:formattedStartTime, end_time:formattedEndTime, date:formattedDate, status, type, no_of_pax}, {
             onSuccess: () => {
-                console.log(visitor_id);
+                console.log(facility_id);
                 resetFields();
                 router.back();
 
@@ -139,7 +143,7 @@ const CreateFormScreen = () => {
 
     //Delete
     const onDelete = () => {
-        deleteVisitor(visitor_id, {
+        deleteFacility(facility_id, {
           onSuccess: () => {
             resetFields();
             //router.replace('/(user)/feedback/announcement');
@@ -164,52 +168,23 @@ const CreateFormScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Visitor Application' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Edit Facility' : 'Book Facility' }} />
 
             {/* Set Category     */}
             <Text style={styles.label}> Category</Text> 
             <Picker selectedValue={type} onValueChange={itemValue => setType(itemValue)} style={styles.input}>
-                <Picker.Item label="Delivery" value="Delivery" />
-                <Picker.Item label="Drop-Off/Pick Up" value="Drop-Off/Pick Up" />
-                <Picker.Item label="Visitor" value="Visitor" />
-                <Picker.Item label="Overnight" value="Overnight" />
-                <Picker.Item label="Contractor/Worker" value="Contractor/Worker" />
+                <Picker.Item label="Swimming Pool" value="Swimming Pool" />
+                <Picker.Item label="Gym Room" value="Gym Room" />
+                <Picker.Item label="Badminton Court" value="Badminton Court" />
             </Picker>    
 
-            {/* Announcement Title */}
-            <Text style={styles.label}>Name</Text>
-            <TextInput
-                value={name}
-                onChangeText={setName} //Updates title state on change
-                placeholder='name'
-                style={styles.input}
-            />
-
-            {/* vehicle number */}
-            <Text style={styles.label}>Vehicle Number (Leave Blank if walk-in)</Text>
-            <TextInput
-                value={vehicle_number}
-                onChangeText={setVehicleNumber} //Updates content state on change
-                placeholder='vehicle number'
-                style={styles.input}
-            />
-
-            {/* contact no*/}
-            <Text style={styles.label}>Contact Number</Text>
-            <TextInput
-                value={contact_number}
-                onChangeText={setContactNo} //Updates content state on change
-                placeholder='contact number'
-                style={styles.input}
-            />
 
             {/* Due Date Picker and Icon */}
-            <Text style={styles.label}>Due Date</Text>
+            <Text style={styles.label}>Date</Text>
             <View style={styles.datePickerContainer}>
                 <Text style={styles.input}>{date.toLocaleDateString()}</Text>
                 <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.icon}>
                     <Icon name="calendar" size={24} color={Colors.light.tint} />
-
                 </TouchableOpacity>
                 {showDatePicker && (
                     <DateTimePicker
@@ -229,6 +204,57 @@ const CreateFormScreen = () => {
                     
                 )}
             </View>
+
+            
+{/* Start Time Picker */}
+<Text style={styles.label}>Start Time</Text>
+            <TouchableOpacity onPress={() => setShowStartTimePicker(true)} style={styles.dateTimePickerContainer}>
+                <Text style={styles.input}>{start_time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</Text>
+                <Icon name="clock-o" size={24} color={Colors.light.tint} />
+            </TouchableOpacity>
+            {showStartTimePicker && (
+                <DateTimePicker
+                    value={start_time}
+                    mode="time"
+                    display="default"
+                    onChange={(event, selectedTime) => {
+                        setShowStartTimePicker(false);
+                        if (selectedTime) {
+                            setStartTime(selectedTime);
+                        }
+                    }}
+                />
+            )}
+
+            {/* End Time Picker */}
+            <Text style={styles.label}>End Time</Text>
+            <TouchableOpacity onPress={() => setShowEndTimePicker(true)} style={styles.dateTimePickerContainer}>
+                <Text style={styles.input}>{end_time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</Text>
+                <Icon name="clock-o" size={24} color={Colors.light.tint} />
+            </TouchableOpacity>
+            {showEndTimePicker && (
+                <DateTimePicker
+                    value={end_time}
+                    mode="time"
+                    display="default"
+                    onChange={(event, selectedTime) => {
+                        setShowEndTimePicker(false);
+                        if (selectedTime) {
+                            setEndTime(selectedTime);
+                        }
+                    }}
+                />
+            )}
+            
+
+            <Text style={styles.label}>Number of Participants</Text>
+            <TextInput
+                value={no_of_pax}
+                onChangeText={setNoOfPax}
+                placeholder="Number of participants"
+                keyboardType="numeric"
+                style={styles.input}
+            />
 
 
 
@@ -291,6 +317,13 @@ const styles = StyleSheet.create({
 
         alignItems: 'center',
         backgroundColor: 'white',
+    },
+    dateTimePickerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        marginBottom: 20,
+        padding: 10,
     },
 })
 

@@ -14,7 +14,7 @@ const FacilityDetailScreen = () => {
 
     //access the specific announcement which user want to read
     const { facility_id: idString } = useLocalSearchParams();
-    //const visitor_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
+    //const facility_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
 
     //Safely parse the announcement ID from query parameters
     let facility_id = 0; // Default value if no valid id is found
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
 
 
 
-export default VisitorDetailScreen;
+export default FacilityDetailScreen;
