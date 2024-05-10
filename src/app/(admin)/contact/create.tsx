@@ -21,11 +21,9 @@ const CreateContactScreen = () => {
 
     // State variables for title, sender, and content of the Contact
     const [title, setTitle] = useState('');
-    const [sender, setSender] = useState('');
-    const [content, setContent] = useState('');
-    const [date, setDate] = useState('');
-    
-    const defaultImage = 'null';
+    const [icon, setIcon] = useState('');
+    const [number, setNumber] = useState('');
+    const [category, setCategory] = useState('');
 
 
     const [errors, setErrors] = useState('');// validation purpose
@@ -54,9 +52,9 @@ const CreateContactScreen = () => {
     useEffect(()=>{
         if(updatingContact){
             setTitle(updatingContact.title);
-            setSender(updatingContact.icon);
-            setContent(updatingContact.number);
-            setImage(updatingContact.category);
+            setIcon(updatingContact.icon);
+            setNumber(updatingContact.number);
+            setCategory(updatingContact.category);
         }
     },[updatingContact]);
 
@@ -71,23 +69,28 @@ const CreateContactScreen = () => {
     // Function to reset all input fields
     const resetFields = () => {
         setTitle('');
-        setSender('');
-        setContent('');
+        setIcon('');
+        setNumber('');
+        setCategory('');
     }
 
     //Validate the input
     const validateInput = () => {
-        setErrors(''); //reset input field that not validate
+        setErrors('');
         if (!title) {
             setErrors('Title is required');
             return false;
         }
-        if (!content) {
-            setErrors('Content is required');
+        if (!icon) {
+            setErrors('Icon is required');
             return false;
         }
-        if (!sender) {
-            setErrors('Sender is required');
+        if (!number) {
+            setErrors('Number is required');
+            return false;
+        }
+        if (!category) {
+            setErrors('Category is required');
             return false;
         }
         return true;
@@ -107,10 +110,9 @@ const CreateContactScreen = () => {
             return;
         }
 
-        const imagePath = await uploadImage();
 
         // Save in the database
-        insertContact({ title, image: imagePath, sender, content,date:currentdate}, {
+        insertContact({ title, icon, number, category}, {
             onSuccess: () => {
                 resetFields();
                 router.back();
@@ -125,10 +127,10 @@ const CreateContactScreen = () => {
             return;
         }
 
-        const imagePath = await uploadImage();
+
 
         //Save in the database
-        updateContact({ contact_id,title, image:imagePath, sender, content,date:currentdate}, {
+        updateContact({ contact_id,title, icon, number, category}, {
             onSuccess: () => {
                 console.log(contact_id);
                 resetFields();
@@ -178,64 +180,43 @@ const CreateContactScreen = () => {
         ]);
     };
 
-    const uploadImage = async () => {
-        if (!image?.startsWith('file://')) {
-          return;
-        }
-      
-        const base64 = await FileSystem.readAsStringAsync(image, {
-          encoding: 'base64',
-        });
-        const filePath = `${uuid.v4()}.png`;
-        const contentType = 'image/png';
-        const { data, error } = await supabase.storage
-          .from('announcement-images')
-          .upload(filePath, decode(base64), { contentType });
-      
-        if (data) {
-          return data.path;
-        }
-      };
-
+    
     //Render UI
     return (
         <View style={styles.container}>
 
             <Stack.Screen options={{ title: isUpdating ? 'Update contact' : 'Add contact' }} />
 
-            {/* contact Image */}
-            <RemoteImage path={image || 'https://i.imgur.com/xL5dgei.png'} fallback={image ||'https://i.imgur.com/xL5dgei.png'} style={styles.image}/>
-            {/* Upload image */}
-            <Text onPress={pickImage} style={styles.textButton}>
-                Select image</Text>
+            
 
-            {/* contact Title */}
             <Text style={styles.label}>Title</Text>
             <TextInput
                 value={title}
-                onChangeText={setTitle} //Updates title state on change
+                onChangeText={setTitle}
                 placeholder='Title'
                 style={styles.input}
             />
-
-            {/* contact Sender */}
-            <Text style={styles.label}>Sender</Text>
+            <Text style={styles.label}>Icon</Text>
             <TextInput
-                value={sender}
-                onChangeText={setSender} //Updates sender state on change
-                placeholder='Sender'
+                value={icon}
+                onChangeText={setIcon}
+                placeholder='Icon'
                 style={styles.input}
             />
-
-            {/* contact Content */}
-            <Text style={styles.label}>Content</Text>
+            <Text style={styles.label}>Number</Text>
             <TextInput
-                value={content}
-                onChangeText={setContent} //Updates content state on change
-                placeholder='contact Content'
+                value={number}
+                onChangeText={setNumber}
+                placeholder='Number'
                 style={styles.input}
             />
-
+            <Text style={styles.label}>Category</Text>
+            <TextInput
+                value={category}
+                onChangeText={setCategory}
+                placeholder='Category'
+                style={styles.input}
+            />
 
 
             {/* error Message for invalid input */}
