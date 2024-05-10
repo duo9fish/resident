@@ -1,5 +1,6 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { FlatList, View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import Colors from '../../../constants/Colors';
 
 //import announcements from '@assets/data/announcement';
 
@@ -42,8 +43,8 @@ const AnnouncementDetailScreen = () => {
 
     return (
         <View >
-            <Stack.Screen options={{ title: announcement?.title, headerStyle: {backgroundColor: '#2EAED1', // Change this line with your desired color
-          }, }} />
+            <Stack.Screen options={{ title: announcement?.title, headerStyle: {backgroundColor: Colors.light.tint,// Change this line with your desired color
+          },headerTintColor: '#FFFFFF', }} />
             {hasImage && (
                 <RemoteImage
                     path={announcement?.image || defaultImage}
