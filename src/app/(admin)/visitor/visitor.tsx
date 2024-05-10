@@ -6,7 +6,9 @@ import React, { useEffect } from 'react';
 import VisitorListItem from '@/components/VisitorListItem';
 import { useVisitorList } from '@/api/visitors';
 
+
 export default function VisitorScreen() {
+
   const { data: visitors, error, isLoading } = useVisitorList();
 
   if (isLoading) {
