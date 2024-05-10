@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { useAnnouncement } from '@/api/announcements';
 import RemoteImage from '@/components/RemoteImage';
+import { useState, useEffect } from 'react';
 
 // Announcement Details Page
 
@@ -12,21 +13,17 @@ const AnnouncementDetailScreen = () => {
 
     //access the specific announcement which user want to read
     const { announcement_id: idString } = useLocalSearchParams();
-    //const announcement_id = parseFloat(typeof idString == 'string' ? idString : idString[0]);
-
-    //Safely parse the announcement ID from query parameters
-    let announcement_id = 0; // Default value if no valid id is found
-    if (Array.isArray(idString)) {
-        announcement_id = parseFloat(idString[0] || '0');
-    } else if (typeof idString === 'string') {
-        announcement_id = parseFloat(idString);
-    }
-
+    const announcement_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
     const { data: announcement, error, isLoading } = useAnnouncement(announcement_id);
 
     //const announcement = announcements.find((a) => a.id.toString() == announcement_id)
 
     const defaultImage = 'null';
+    const [hasImage, setHasImage] = useState(false);
+
+    useEffect(() => {
+        setHasImage(Boolean(announcement?.image));
+    }, [announcement?.image]);
 
     if (isLoading) {
         return <ActivityIndicator />
@@ -40,7 +37,11 @@ const AnnouncementDetailScreen = () => {
     if (error) {
         return <Text>Failed to fetch announcements</Text>
     }
-
+    
+    const containerStyle = {
+        ...styles.container,
+        marginTop: hasImage ? 0 : -250, // Adjust the value as needed
+      };
 
     return (
         <View>
@@ -60,24 +61,28 @@ const AnnouncementDetailScreen = () => {
                                 )}
                             </Pressable>
                         </Link>
-                    )
+                    ),
+                    headerStyle: {
+                        backgroundColor: '#2EAED1',
+                    },
                 }} />
             <Stack.Screen options={{ title: announcement?.title }} />
+            {hasImage && (
+                <RemoteImage
+                    path={announcement?.image || defaultImage}
+                    fallback={defaultImage}
+                    style={styles.image}
+                />
+            )}
             <Text style={styles.title}>{announcement.title}</Text>
 
             <View style={styles.desc}>
                 <Text style={styles.sender}>Sender: {announcement.sender}</Text>
-                <Text style={styles.date}>{announcement.date}</Text>
+                <Text style={styles.date}>Date:{announcement.date}</Text>
 
             </View>
-            <Text>ann: {announcement_id}</Text>
-            <Text>{announcement.content}</Text>
-
-            <RemoteImage 
-                path={announcement?.image || defaultImage} 
-                fallback={defaultImage} 
-                style={styles.image}
-            />
+            <Text style={styles.ann}>ann: {announcement_id}</Text>
+            <Text style={styles.content}>{announcement.content}</Text>
 
         </View>
 
@@ -85,37 +90,69 @@ const AnnouncementDetailScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: '#fff',
+    },
+    centeredContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     image: {
         width: '100%',
-        height: 300, 
+        height: 250,
         resizeMode: 'contain',
+        marginTop: 5,
+        marginBottom: 15,
     },
     desc: {
-        justifyContent: 'space-around',
         flexDirection: 'row',
+        justifyContent: 'space-between',
         marginTop: 10,
-        marginBottom: 15,
-
+        marginBottom: 0,
     },
     title: {
-        fontSize: 15,
-        //fontWeight: '700',
-
-
-        //alignItems: 'center',
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginTop: 5,
+        marginBottom: 10,
+        marginLeft: 10,
+        marginRight: 10,
     },
     sender: {
-        //fontSize: 12,
-        //fontWeight: '600',
+        fontSize: 15,
+        fontWeight: '600',
         flex: 1,
-        color: '#111111',
+        color: '#444',
+        marginBottom: 20,
+        marginLeft: 20,
     },
     date: {
-        //fontSize: 12.5,
-        //fontWeight: '600',
-        color: '#111111',
-    }
+        fontSize: 15,
+        color: '#666',
+        fontWeight: '600',
+        marginRight: 20,
+    },
+    content: {
+        fontSize: 16,
+        lineHeight: 22,
+        marginHorizontal: 20, // Add horizontal margin
+        marginVertical: 10, // Add vertical margin
+        color: '#333',
+    },
+    errorMessage: {
+        fontSize: 18,
+        color: 'red',
+    },
+    ann: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginHorizontal: 20,
+        marginVertical: 10,
+    },  
 })
 
 export default AnnouncementDetailScreen;
