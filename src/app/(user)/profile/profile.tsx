@@ -6,8 +6,7 @@ import { router } from 'expo-router';
 import { Session } from '@supabase/supabase-js';
 import { useAuth } from '@/providers/AuthProvider';
 import Avatar from '@/components/Avatar';
-import { Input } from 'react-native-elements';
-import RemoteImage from '@/components/RemoteImage';
+
 
 
 const ProfileScreen = () => {
@@ -61,7 +60,7 @@ const ProfileScreen = () => {
   const handleEditProfile = () => {
     setIsEditing(true);
     // Navigate to the EditProfileScreen or show a modal for editing
-    router.push('(user)/profile/create')
+    router.push('(admin)/profile/create')
   };
 
   return (
@@ -91,13 +90,13 @@ const ProfileScreen = () => {
 
       <View style={styles.userInfo}>
         <Text style={styles.name}>{fullName}</Text>
-        <Text style={styles.email}>{session?.user?.email}</Text>
-        <Text style={styles.unit}>{unitNo}</Text>
+        <Text style={styles.unit}>Unit: {unitNo}</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Contact Information</Text>
-        <Text style={styles.detail}>{phoneNo}</Text>
+        <Text style={styles.email}>Email: {session?.user?.email}</Text>
+        <Text style={styles.detail}>Phone No: {phoneNo}</Text>
       </View>
 
       <Button title='Sign Out' onPress={async ()=>await supabase.auth.signOut()}/>
@@ -115,6 +114,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 16,
+    textAlign : 'center',
+    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',
