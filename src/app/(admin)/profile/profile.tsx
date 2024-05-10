@@ -6,8 +6,7 @@ import { router } from 'expo-router';
 import { Session } from '@supabase/supabase-js';
 import { useAuth } from '@/providers/AuthProvider';
 import Avatar from '@/components/Avatar';
-import { Input } from 'react-native-elements';
-import RemoteImage from '@/components/RemoteImage';
+
 
 
 const ProfileScreen = () => {
