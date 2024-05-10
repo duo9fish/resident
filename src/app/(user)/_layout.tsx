@@ -54,6 +54,10 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+          headerStyle: {
+            backgroundColor: '#2EAED1', // Change this to your desired color
+          },
+          headerTintColor: 'white', 
         }}
       />
       <Tabs.Screen
@@ -61,6 +65,9 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
+          headerStyle: {
+            backgroundColor: '#2EAED1', // Change this to your desired color
+          },
         }}
       />
   {/* Hide modules from display*/ }
