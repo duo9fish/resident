@@ -23,12 +23,12 @@ export default function AnnouncementStack() {
         <Stack screenOptions={{
         }}>
 
-
+            {/*Announcement Header*/}
             <Stack.Screen name="contact"
                 options={{
                     title: 'Contact',
                     headerStyle: {
-                        backgroundColor: '#2EAED1',
+                        backgroundColor: Colors.light.tint,
                       },
                       headerTintColor: 'white',
                 }} />
