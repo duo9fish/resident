@@ -26,7 +26,7 @@ export default function AnnouncementStack() {
                         </Link>
                     ),
                 }} /> */}
-            <Tabs.Screen name='list' options={{ title: 'Billing',href: null, headerShown: true, headerRight: () => (
+            <Tabs.Screen name='list' options={{ title: 'Billing',href: null,headerStyle: { backgroundColor: '#2EAED1',}, headerShown: true, headerRight: () => (
                         <Link href="/(admin)/billing/create" asChild>
                             <Pressable>
                                 {({ pressed }) => (
@@ -37,8 +37,10 @@ export default function AnnouncementStack() {
                                         style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                                     />
                                 )}
+                                
                             </Pressable>
                         </Link>
+                        
                     )}} />
                 
         </Stack>
