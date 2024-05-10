@@ -51,25 +51,29 @@ const FeedbackDetailScreen = () => {
                                 )}
                             </Pressable>
                         </Link>
-                    )
+                    ),
+                    headerStyle: {
+                        backgroundColor: '#2EAED1',
+                    },
+                    headerTintColor: '#FFFFFF', // Change the title (word) color
                 }} />
                 
             <Stack.Screen options={{ title: feedback?.title }} />
             <Text style={styles.title}>{feedback.title}</Text>
-
+            <RemoteImage path={feedback?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
             <View style={styles.desc}>
-                <Text style={styles.sender}>id: {feedback.feedback_id}</Text>
-                <Text style={styles.date}>{feedback.date}</Text>
+                <Text style={styles.sender}>Id: {feedback.feedback_id}</Text>
+                <Text style={styles.date}>Date: {feedback.date}</Text>
 
             </View>
-            <Text>ann: {feedback_id}</Text>
-            <Text>{feedback.comment}</Text>
+            <Text style={styles.com}>com: {feedback_id}</Text>
+            <Text style={styles.content}>{feedback.comment}</Text>
 
             {/* Only show the solution if status is "processed" */}
             {feedback.status === 'Processed' && (
                 <Text>{feedback.solution}</Text>
             )}
-            <RemoteImage path={feedback?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
+            
 
         </View>
 
@@ -79,9 +83,11 @@ const FeedbackDetailScreen = () => {
 const styles = StyleSheet.create({
     container: {},
     image: {
-        //height: 40,
         width: '100%',
-        aspectRatio: 1,
+        height: 250,
+        resizeMode: 'contain',
+        marginTop: 5,
+        marginBottom: 15,
     },
     desc: {
         justifyContent: 'space-around',
@@ -91,23 +97,41 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        fontSize: 15,
-        //fontWeight: '700',
-
-
-        //alignItems: 'center',
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginTop: 5,
+        marginBottom: 10,
+        textAlign: 'center',
+        marginLeft: 10,
+        marginRight: 10,
     },
     sender: {
-        //fontSize: 12,
-        //fontWeight: '600',
+        fontSize: 17,
+        fontWeight: '600',
         flex: 1,
-        color: '#111111',
+        color: '#444',
+        marginBottom: 5,
+        marginLeft: 20,
     },
     date: {
-        //fontSize: 12.5,
-        //fontWeight: '600',
-        color: '#111111',
-    }
+        fontSize: 15,
+        color: '#666',
+        fontWeight: '600',
+        marginRight: 15,
+    },
+    com: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginHorizontal: 20,
+        marginVertical: 10,
+    },
+    content: {
+        fontSize: 16,
+        lineHeight: 22,
+        marginHorizontal: 20, // Add horizontal margin
+        marginVertical: 10, // Add vertical margin
+        color: '#333',
+    },
 })
 
 
