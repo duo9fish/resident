@@ -87,7 +87,7 @@ const VisitorDetailScreen = () => {
                     // )
                 }} />
                 
-            <Stack.Screen options={{ title: "Visitor" }} />
+            <Stack.Screen options={{ title: "Handle Visitor Application" }} />
             <Text style={styles.title}>{visitor.name}</Text>
 
             <View style={styles.desc}>
