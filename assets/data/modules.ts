@@ -25,7 +25,7 @@ const modules = [
     name: 'Facility',
     image:
       'https://i.imgur.com/2ltlhQs.png',
-    link: '',
+    link: 'facility',
   },
   {
     //Billing
