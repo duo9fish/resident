@@ -26,7 +26,20 @@ export default function AnnouncementStack() {
 
             <Stack.Screen name="contact"
                 options={{
-                    title: 'Contact',
+                    title: 'Contact',headerRight: () => (
+                        <Link href="/(admin)/contact/create" asChild>
+                            <Pressable>
+                                {({ pressed }) => (
+                                    <FontAwesome
+                                        name="plus-square-o"
+                                        size={25}
+                                        color={Colors.light.tint}
+                                        style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
+                    ),
                     headerStyle: {
                         backgroundColor: '#2EAED1',
                       },
