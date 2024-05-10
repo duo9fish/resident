@@ -17,6 +17,8 @@ export type Module = {
   link: any;
 };
 
+//2FnEj2tKK5Z5tRdE
+
 // export type Announcement = {
 //   announcement_id: number;
 //   title: string;
