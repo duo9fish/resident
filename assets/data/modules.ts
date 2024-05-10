@@ -53,14 +53,14 @@ const modules = [
       'https://i.imgur.com/cD4O9Ja.png',
       link: '',
   },
-  {
-    //Info
-    id: 6,
-    name: 'Info',
-    image:
-      'https://i.imgur.com/01iiKXK.png',
-      link: '',
-  },
+  // {
+  //   //Info
+  //   id: 6,
+  //   name: 'Info',
+  //   image:
+  //     'https://i.imgur.com/01iiKXK.png',
+  //     link: '',
+  // },
   
 ];
 

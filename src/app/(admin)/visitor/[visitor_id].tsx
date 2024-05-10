@@ -98,10 +98,18 @@ const VisitorDetailScreen = () => {
             </View>
             <Text>ann: {visitor.status}</Text>
             <Text>{visitor.type}</Text>
+            {visitor.status === 'Pending' && (
+                <Button onPress={onApprove} text={'Approve'} />
+                
+            )}
+            {visitor.status === 'Pending' && (
+                <Button onPress={onReject} text={'Reject'} />
+                
+            )}
+            
 
 
-            <Button onPress={onApprove} text={'Approve'} />
-            <Button onPress={onReject} text={'Reject'} />
+
         </View>
 
 

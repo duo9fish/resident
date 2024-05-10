@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '@/lib/supabase';
+import { useProfileList } from '@/api/profiles';
+
 
 const ProfileScreen = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const { data: profiles, error, isLoading } = useProfileList();
+
+
+  
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -15,6 +21,7 @@ const ProfileScreen = () => {
     <View style={styles.container}>
       <View style={styles.header}>
       <Image style={{ width: 110, height: 110 }} source={{ uri: 'https://i.mydramalist.com/274dPc.jpg' }} />
+      
         <TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
           <Ionicons name="pencil" size={24} color="#333" />
         </TouchableOpacity>
@@ -22,6 +29,7 @@ const ProfileScreen = () => {
 
       <View style={styles.userInfo}>
         <Text style={styles.name}>John Doe</Text>
+        <Text style={styles.name}>{profiles.id}</Text>
         <Text style={styles.email}>john.doe@example.com</Text>
         <Text style={styles.unit}>Unit 123</Text>
       </View>

@@ -1,8 +1,5 @@
 import { supabase } from "@/lib/supabase";
-//import { Feedback } from "@/types";
-import {  Tables } from '@/types';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 
 export const useVisitorList = () => {
     return useQuery({

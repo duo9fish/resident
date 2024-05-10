@@ -22,7 +22,7 @@ const segments = useSegments();
 //console.log(segments);
 
     return (
-        <Link href={`/${segments[0]}/announcement/${announcements.id}`as  `${string}:${string}`} asChild>
+        <Link href={`/${segments[0]}/announcement/${announcements.announcement_id}`as  `${string}:${string}`} asChild>
             
         
             <Pressable style={styles.container}>

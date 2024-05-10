@@ -22,7 +22,7 @@ export const useAnnouncement = (announcement_id: number) => {
     return useQuery({
         queryKey: ['announcements', announcement_id],
         queryFn: async () => {
-            const { data, error } = await supabase.from('announcements').select('*').eq('id', announcement_id).single();
+            const { data, error } = await supabase.from('announcements').select('*').eq('announcement_id', announcement_id).single();
             if (error) {
                 throw new Error(error.message);
             }
@@ -65,7 +65,7 @@ export const useUpdateAnnouncement = () => {
             const { data, error } = await supabase
                 .from('announcements')
                 .update(update)
-                .eq('id', announcement_id)
+                .eq('announcement_id', announcement_id)
                 .select();
 
             if (error) {
@@ -85,7 +85,7 @@ export const useDeleteAnnouncement = () => {
   
     return useMutation({
       async mutationFn(announcement_id: number) {
-        const { error } = await supabase.from('announcements').delete().eq('id', announcement_id);
+        const { error } = await supabase.from('announcements').delete().eq('announcement_id', announcement_id);
         if (error) {
           throw new Error(error.message);
         }

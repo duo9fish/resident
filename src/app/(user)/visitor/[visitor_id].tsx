@@ -1,10 +1,11 @@
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { FlatList, View, Text, Image, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 
-import { useVisitor } from '@/api/visitors';
+import { useVisitor,useUpdateVisitor } from '@/api/visitors';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import RemoteImage from '@/components/RemoteImage';
+import Button from '@/components/Button';
 
 
 // Feedback Details Page
@@ -24,6 +25,7 @@ const VisitorDetailScreen = () => {
         visitor_id = parseFloat(idString);
     }
     const { data: visitor, error, isLoading } = useVisitor(visitor_id);
+    const { mutate: updateVisitor } = useUpdateVisitor();
 
     const defaultImage = 'null';
 
@@ -40,26 +42,38 @@ const VisitorDetailScreen = () => {
         return <Text>visitor Not Found</Text>
     }
 
+     //Approve application
+     const onCancel = async () => {       
+        //Save in the database
+        updateVisitor({ visitor_id,status:'Canceled'}, {
+            onSuccess: () => {
+                //router.back();
+            }
+        });
+    }
+
+
     return (
         <View>
             <Stack.Screen
                 options={{
-                    title: 'Visitor', headerRight: () => (
-                        //ignore the error
-                        <Link href={`/(user)/visitor/update?visitor_id=${visitor_id}` as `${string}:${string}`} asChild>
+                    title: 'Visitor', 
+                    // headerRight: () => (
+                    //     //ignore the error
+                    //     <Link href={`/(user)/visitor/update?visitor_id=${visitor_id}` as `${string}:${string}`} asChild>
 
-                            <Pressable>
-                                {({ pressed }) => (
-                                    <FontAwesome
-                                        name="pencil"
-                                        size={25}
-                                        color={Colors.light.tint}
-                                        style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                                    />
-                                )}
-                            </Pressable>
-                        </Link>
-                    )
+                    //         <Pressable>
+                    //             {({ pressed }) => (
+                    //                 <FontAwesome
+                    //                     name="pencil"
+                    //                     size={25}
+                    //                     color={Colors.light.tint}
+                    //                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    //                 />
+                    //             )}
+                    //         </Pressable>
+                    //     </Link>
+                    // )
                 }} />
                 
             <Stack.Screen options={{ title: "Visitor" }} />
@@ -73,6 +87,10 @@ const VisitorDetailScreen = () => {
             </View>
             <Text>ann: {visitor.status}</Text>
             <Text>{visitor.type}</Text>
+            {visitor.status === 'Pending' && (
+                <Button onPress={onCancel} text={'Cancel Visit'} />
+            )}
+
         </View>
 
     )
