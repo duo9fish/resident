@@ -55,9 +55,9 @@ export default function TabLayout() {
             </Link>
           ),
           headerStyle: {
-            backgroundColor: '#2EAED1', // Change this to your desired color
+            backgroundColor: Colors.light.tint, // Change this to your desired color
           },
-          headerTintColor: 'white', 
+          headerTintColor: 'white', // Change the header title color to white
         }}
       />
       <Tabs.Screen
@@ -71,14 +71,11 @@ export default function TabLayout() {
         }}
       />
   {/* Hide modules from display*/ }
-  <Tabs.Screen name='announcement' options={{href: null ,headerShown: false,}}/>
-  <Tabs.Screen name='billing' options={{href: null ,headerShown: false,}}/>
-  <Tabs.Screen name='feedback' options={{href: null ,headerShown: false,}}/>
-  <Tabs.Screen name='visitor' options={{href: null ,headerShown: false,}}/>
-  <Tabs.Screen name='facility' options={{href: null ,headerShown: false,}}/>
-  <Tabs.Screen name='contact' options={{href: null ,headerShown: false,}}/>
-  
-      
+    <Tabs.Screen name='announcement' options={{ href: null, headerShown: false, }} />
+      <Tabs.Screen name='billing' options={{ href: null, headerShown: false, }} />
+      <Tabs.Screen name='feedback' options={{ href: null, headerShown: false, }} />
+      <Tabs.Screen name='visitor' options={{ href: null, headerShown: false, }} />
+      <Tabs.Screen name='contact' options={{ href: null, headerShown: false, }} />
     </Tabs>
     
   );
