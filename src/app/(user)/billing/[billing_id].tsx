@@ -52,7 +52,8 @@ const BillingDetailScreen = () => {
         <View style={{ backgroundColor: 'white' }}>
              <Stack.Screen
                 options={{
-                    title: 'Billing'
+                    title: 'Billing', headerTintColor: '#FFFFFF', headerStyle: {backgroundColor: Colors.light.tint,// Change this line with your desired color
+                },
                 }} />
             <Stack.Screen options={{ title: billing?.title }} />
             <Text>ID: {billing_id}</Text>
