@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 50,
     marginBottom: 16,
   },
   avatar: {
