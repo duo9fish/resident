@@ -10,10 +10,8 @@ import { useContact, useDeleteContact, useInsertContact, useUpdateContact } from
 import * as FileSystem from'expo-file-system';
 import { decode } from 'base64-arraybuffer';
 import { supabase } from '@/lib/supabase';
-
-import uuid from 'react-native-uuid';
-import RemoteImage from '@/components/RemoteImage';
-uuid.v4(); //
+import { sendPushNotification } from '@/lib/notification';
+ //
 
 
 // Define the component for creating or updating product announcements
@@ -184,6 +182,7 @@ const CreateContactScreen = () => {
     //Render UI
     return (
         <View style={styles.container}>
+
 
             <Stack.Screen options={{ title: isUpdating ? 'Update contact' : 'Add contact', headerStyle: {
                         backgroundColor: Colors.light.tint,

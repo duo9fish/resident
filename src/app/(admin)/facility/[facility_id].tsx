@@ -45,7 +45,7 @@ const FacilityDetailScreen = () => {
                         backgroundColor: Colors.light.tint,
                       },headerTintColor: 'white',
                     headerRight: () => (
-                        <Link href={`/(user)/facility/update?facility=${facility_id}`} asChild>
+                        <Link href={`/(admin)/facility/update?facility=${facility_id}`} asChild>
                             <Pressable>
                                 {({ pressed }) => (
                                     <FontAwesome
