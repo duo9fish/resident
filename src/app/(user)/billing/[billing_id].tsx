@@ -56,7 +56,7 @@ const BillingDetailScreen = () => {
                 },
                 }} />
             <Stack.Screen options={{ title: billing?.title }} />
-            <Text>ID: {billing_id}</Text>
+            <Text style={styles.title}>ID: {billing_id}</Text>
 
             <Text style={styles.title}>MYR {billing.price}</Text>
 
@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 15,
+        marginLeft: 15,
+        marginTop: 5,
         //fontWeight: '700',
 
 
