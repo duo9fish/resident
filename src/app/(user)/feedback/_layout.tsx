@@ -1,4 +1,5 @@
 import { Stack } from 'expo-router';
+import Colors from '@/constants/Colors';
 
 export default function MenuStack() {
   return (
@@ -9,9 +10,7 @@ export default function MenuStack() {
         options={{
           headerShown: true,
           title: 'Feedback',
-          headerStyle: {
-            backgroundColor: '#2EAED1', // Change the header background color
-          },
+          headerStyle: {backgroundColor: Colors.light.tint,},
           headerTintColor: '#FFFFFF', // Change the title (word) color
         }}
       />
