@@ -1,48 +1,22 @@
-import { Link, Stack, router, useLocalSearchParams } from 'expo-router';
-import { FlatList, View, Text, Image, StyleSheet, ActivityIndicator, Pressable,  } from 'react-native';
-
-import { useUpdateVisitor, useVisitor } from '@/api/visitors';
-import { FontAwesome } from '@expo/vector-icons';
-import Colors from '@/constants/Colors';
-import RemoteImage from '@/components/RemoteImage';
-import Button from '@/components/Button'; // Import custom button
-import { useState } from 'react';
-
-// Feedback Details Page
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image } from 'react-native';
+import { useVisitor, useUpdateVisitor } from '@/api/visitors';
+import { Link, Stack,useLocalSearchParams } from 'expo-router';
+import Button from '@/components/Button'; // Assuming Button is a styled component
 
 const VisitorDetailScreen = () => {
+    const [status, setStatus] = useState('');
 
-
-    const [status, setStatus] = useState(' '); //set null
-
-    //access the specific announcement which user want to read
     const { visitor_id: idString } = useLocalSearchParams();
-    //const visitor_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
-
-    //Safely parse the announcement ID from query parameters
-    let visitor_id = 0; // Default value if no valid id is found
-    if (Array.isArray(idString)) {
-        visitor_id = parseFloat(idString[0] || '0');
-    } else if (typeof idString === 'string') {
-        visitor_id = parseFloat(idString);
-    }
+    let visitor_id = parseFloat(Array.isArray(idString) ? idString[0] : idString || '0');
     const { data: visitor, error, isLoading } = useVisitor(visitor_id);
     const { mutate: updateVisitor } = useUpdateVisitor();
 
-    const defaultImage = 'null';
+    if (isLoading) return <ActivityIndicator size="large" color="#0000ff" />;
 
+    if (error) return <Text style={styles.errorText}>Failed to fetch visitor details.</Text>;
 
-
-    if (isLoading) {
-        return <ActivityIndicator />
-    }
-
-    if (error) {
-        return <Text>Failed to fetch visitor</Text>
-    }
-    if (!visitor) {
-        return <Text>visitor Not Found</Text>
-    }
+    if (!visitor) return <Text style={styles.errorText}>Visitor not found.</Text>;
 
     //Approve application
     const onApprove = async () => {       
@@ -64,40 +38,39 @@ const VisitorDetailScreen = () => {
         });
     }
 
-
     return (
         <View>
             <Stack.Screen
                 options={{
-                    title: 'Visitor', 
-                    // headerRight: () => (
-                    //     <Link href={`/(user)/visitor/update?visitor_id=${visitor_id}` as `${string}:${string}`} asChild>
-
-                    //         <Pressable>
-                    //             {({ pressed }) => (
-                    //                 <FontAwesome
-                    //                     name="pencil"
-                    //                     size={25}
-                    //                     color={Colors.light.tint}
-                    //                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                    //                 />
-                    //             )}
-                    //         </Pressable>
-                    //     </Link>
-                    // )
+                    title: 'Visitor', headerStyle: {
+                        backgroundColor: '#2EAED1',
+                    },
+                    headerTintColor: '#FFFFFF', // Change the title (word) color// headerRight: () => (
+                        //     //ignore the error
+                        //     <Link href={`/(user)/visitor/update?visitor_id=${visitor_id}` as `${string}:${string}`} asChild>
+    
+                        //         <Pressable>
+                        //             {({ pressed }) => (
+                        //                 <FontAwesome
+                        //                     name="pencil"
+                        //                     size={25}
+                        //                     color={Colors.light.tint}
+                        //                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                        //                 />
+                        //             )}
+                        //         </Pressable>
+                        //     </Link>
+                        // )
                 }} />
                 
-            <Stack.Screen options={{ title: "Handle Visitor Application" }} />
-            <Text style={styles.title}>{visitor.name}</Text>
-
-            <View style={styles.desc}>
-                <Text style={styles.title}>{visitor.vehicle_number ? "Vehicle number" : ' '}</Text>
-                <Text style={styles.title}>{visitor.vehicle_number ? visitor.vehicle_number : 'Walk-in Visitor'}</Text>
-                <Text style={styles.date}>{visitor.date}</Text>
-
+        <Text style={styles.header}>Visitor Details</Text>
+            <View style={styles.infoContainer}>
+                <Text style={styles.infoText}>Name: {visitor.name}</Text>
+                <Text style={styles.infoText}>Date: {visitor.date}</Text>
+                <Text style={styles.infoText}>Vehicle PlatNo: {visitor.vehicle_number || 'Walk-in Visitor'}</Text>
+                <Text style={styles.infoText}>Status: {visitor.status}</Text>
+                <Text style={styles.infoText}>Type: {visitor.type}</Text>
             </View>
-            <Text>ann: {visitor.status}</Text>
-            <Text>{visitor.type}</Text>
             {visitor.status === 'Pending' && (
                 <Button onPress={onApprove} text={'Approve'} />
                 
@@ -106,51 +79,49 @@ const VisitorDetailScreen = () => {
                 <Button onPress={onReject} text={'Reject'} />
                 
             )}
-            
-
-
-
         </View>
-
 
     )
 }
 
 const styles = StyleSheet.create({
-    container: {},
-    image: {
-        //height: 40,
-        width: '100%',
-        aspectRatio: 1,
-    },
-    desc: {
-        justifyContent: 'space-around',
-        flexDirection: 'row',
-        marginTop: 10,
-        marginBottom: 15,
-
-    },
-    title: {
-        fontSize: 15,
-        //fontWeight: '700',
-
-
-        //alignItems: 'center',
-    },
-    sender: {
-        //fontSize: 12,
-        //fontWeight: '600',
+    container: {
         flex: 1,
-        color: '#111111',
+        padding: 20,
+        backgroundColor: '#fff'
     },
-    date: {
-        //fontSize: 12.5,
-        //fontWeight: '600',
-        color: '#111111',
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        marginLeft: 20,
+        marginTop: 10
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: 20
+    },
+    image: {
+        width: '100%',
+        height: 200, // Fixed height, adjust as necessary
+        marginBottom: 20
+    },
+    infoContainer: {
+        marginBottom: 20,
+        marginLeft: 20
+    },
+    infoText: {
+        fontSize: 16,
+        marginBottom: 10,
+        lineHeight: 24
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 20
     }
-})
-
-
-
+});
 
 export default VisitorDetailScreen;
