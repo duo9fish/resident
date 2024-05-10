@@ -21,7 +21,6 @@ import { Stack } from 'expo-router'
 export default function AnnouncementStack() {
     return (
         <Stack screenOptions={{
-
         }}>
 
             {/*Announcement Header*/}
@@ -41,6 +40,10 @@ export default function AnnouncementStack() {
                             </Pressable>
                         </Link>
                     ),
+                    headerStyle: {
+                        backgroundColor: '#2EAED1',
+                      },
+                      headerTintColor: 'white',
                 }} />
 
             {/* <Stack.Screen name="[announcement_id]"
@@ -61,6 +64,7 @@ export default function AnnouncementStack() {
                     )
                 }} /> */}
         </Stack>
-
+    
     );
+
 }
