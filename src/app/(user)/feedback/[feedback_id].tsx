@@ -67,11 +67,11 @@ const FeedbackDetailScreen = () => {
 
             </View>
             <Text style={styles.com}>com: {feedback_id}</Text>
-            <Text style={styles.content}>{feedback.comment}</Text>
+            <Text style={styles.content}>Comment: {feedback.comment}</Text>
 
             {/* Only show the solution if status is "processed" */}
             {feedback.status === 'Processed' && (
-                <Text>{feedback.solution}</Text>
+                <Text style={styles.content}>Solution :{feedback.solution}</Text>
             )}
             
 
