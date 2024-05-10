@@ -59,6 +59,10 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+          headerStyle: {
+            backgroundColor: '#2EAED1', 
+          },
+          headerTintColor: 'white',
         }}
       />
       <Tabs.Screen
@@ -66,6 +70,9 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
+          headerStyle: {
+            backgroundColor: '#2EAED1', 
+          },
         }}
       />
       {/* Hide top tab nav from display*/}
@@ -74,7 +81,7 @@ export default function TabLayout() {
       <Tabs.Screen name='feedback' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='visitor' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='facility' options={{ href: null, headerShown: false, }} />
-     
+      <Tabs.Screen name='contact' options={{ href: null, headerShown: false, }} />
 
     </Tabs>
 
