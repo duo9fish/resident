@@ -34,7 +34,14 @@ const CreateAnnouncementScreen = () => {
 
     //Update/Edit the announcement follow the id pass
     const { announcement_id: idString } = useLocalSearchParams();
-    const announcement_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]);
+    //Safely parse the announcement ID from query parameters
+    let announcement_id = 0; // Default value if no valid id is found
+    if (Array.isArray(idString)) {
+        announcement_id = parseFloat(idString[0] || '0');
+    } else if (typeof idString === 'string') {
+        announcement_id = parseFloat(idString);
+    }
+    //const announcement_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
     
     //to differentiate the purpose whether update or add an announcement
     const isUpdating = !!announcement_id;
@@ -198,7 +205,7 @@ const CreateAnnouncementScreen = () => {
             <Stack.Screen options={{ title: isUpdating ? 'Update Announcement' : 'Add Announcement' }} />
 
             {/* Announcement Image */}
-            <RemoteImage path={image || defaultImage} fallback={defaultImage} style={styles.image}/>
+            <RemoteImage path={image || 'https://i.imgur.com/xL5dgei.png'} fallback={image ||'https://i.imgur.com/xL5dgei.png'} style={styles.image}/>
             {/* Upload image */}
             <Text onPress={pickImage} style={styles.textButton}>
                 Select image</Text>

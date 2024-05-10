@@ -1,12 +1,13 @@
 import { Link, Stack, router, useLocalSearchParams } from 'expo-router';
-import { FlatList, View, Text, Image, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import { FlatList, View, Text, Image, StyleSheet, Pressable, ActivityIndicator, Alert } from 'react-native';
 
 import billings from '@assets/data/billing';
 import Button from '@/components/Button';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
-
+import { initialisePaymentSheet, openPaymentSheet } from '@/lib/stripe'
 import { useBilling } from '@/api/billings';
+import { presentPaymentSheet } from '@stripe/stripe-react-native';
 
 // Announcement Details Page
 
@@ -15,15 +16,26 @@ const BillingDetailScreen = () => {
     //access the specific billing which user want to read
     const { billing_id:idString } = useLocalSearchParams();
     const billing_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
+    
     const { data: billing, error, isLoading } = useBilling(billing_id);
-
+   
+    // const checkOut = async (price: number) => {
+    //     await initialisePaymentSheet(Math.floor(price * 100));
+        
+    //     await openPaymentSheet();
+    //     console.log(error);
+    
+    // }
+    
     const addToPayment = () => {
         if (!billing) {
             return;
         }
-        //console.warn("Adding to Payment", billing)
-        //router.push('/cart');
+        //checkOut(billing.price);
+        Alert.alert("Payment Successful");
+        
     }
+
 
     const defaultImage = 'null';
 

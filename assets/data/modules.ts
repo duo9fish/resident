@@ -7,7 +7,7 @@ const modules = [
     name: 'Visitor',
     image:
       'https://i.imgur.com/RbQGLZK.png',
-    link: '/modal',
+    link: 'visitor',
       
   },
   {

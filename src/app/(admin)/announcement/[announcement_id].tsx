@@ -12,7 +12,16 @@ const AnnouncementDetailScreen = () => {
 
     //access the specific announcement which user want to read
     const { announcement_id: idString } = useLocalSearchParams();
-    const announcement_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
+    //const announcement_id = parseFloat(typeof idString == 'string' ? idString : idString[0]);
+
+    //Safely parse the announcement ID from query parameters
+    let announcement_id = 0; // Default value if no valid id is found
+    if (Array.isArray(idString)) {
+        announcement_id = parseFloat(idString[0] || '0');
+    } else if (typeof idString === 'string') {
+        announcement_id = parseFloat(idString);
+    }
+
     const { data: announcement, error, isLoading } = useAnnouncement(announcement_id);
 
     //const announcement = announcements.find((a) => a.id.toString() == announcement_id)

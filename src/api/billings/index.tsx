@@ -1,8 +1,10 @@
 import { supabase } from "@/lib/supabase";
 
-import {  Tables } from '@/types';
+import { Tables } from '@/types';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { initialisePaymentSheet } from '@/lib/stripe'
+
 
 export const useBillingList = () => {
     return useQuery({
@@ -43,8 +45,8 @@ export const useInsertBilling = () => {
                 title: data.title,
                 price: data.price,
                 status: data.status,
-                due_date: data.due_date,
-                
+                dueDate: data.dueDate,
+
             });
 
             if (error) {
@@ -83,16 +85,22 @@ export const useUpdateBilling = () => {
 
 export const useDeleteBilling = () => {
     const queryClient = useQueryClient();
-  
+
     return useMutation({
-      async mutationFn(billing_id: number) {
-        const { error } = await supabase.from('billings').delete().eq('billing_id', billing_id);
-        if (error) {
-          throw new Error(error.message);
-        }
-      },
-      async onSuccess() {
-        await queryClient.invalidateQueries({ queryKey: ['billings'] });
-      },
+        async mutationFn(billing_id: number) {
+            const { error } = await supabase.from('billings').delete().eq('billing_id', billing_id);
+            if (error) {
+                throw new Error(error.message);
+            }
+        },
+        async onSuccess() {
+            await queryClient.invalidateQueries({ queryKey: ['billings'] });
+        },
     });
-  };
+};
+
+
+const checkout = async (price: number) => {
+    await initialisePaymentSheet(Math.floor(price * 100));
+
+}

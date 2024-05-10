@@ -27,6 +27,8 @@ const BillingDetailScreen = () => {
 
     const defaultImage = 'null';
 
+    
+
     if (isLoading) {
         return <ActivityIndicator />
     }
@@ -36,6 +38,7 @@ const BillingDetailScreen = () => {
     }
 
     return (
+        
 
         <View style={{ backgroundColor: 'white' }}>
              <Stack.Screen
@@ -62,6 +65,7 @@ const BillingDetailScreen = () => {
             <Text style={styles.title}>MYR {billing.price}</Text>
 
             <Text style={styles.title}>{billing.title}</Text>
+            <Text style={styles.title}>date: {billing.dueDate}</Text>
 
 
 

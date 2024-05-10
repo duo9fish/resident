@@ -1,38 +1,39 @@
 import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
 import React from 'react';
-import { Tables } from '../types';
-import { Link,useSegments } from 'expo-router';
-
+import {  Tables } from '../types';
+import { Link, useSegments } from 'expo-router';
 
 // Define a TypeScript type for the props of ModuleListItem component
-type BillingListItemProps = {
-    billings: Tables<'billings'>;
+// type FeedbackListItemProps = {
+//     feedbacks: Feedback;
+// }
+
+type VisitorListItemProps = {
+    visitors: Tables<'visitors'>;
 }
 
-
 //Define a functional component contain each modules
-const BillingListItem = ({ billings }: BillingListItemProps) => {
+const VisitorListItem = ({ visitors }: VisitorListItemProps) => {
 
-    const segments = useSegments();
-    //console.log(segments);
-    
+const segments = useSegments();
 
     return (
-        <Link href={`/${segments[0]}/billing/${billings.billing_id}` as  `${string}:${string}`} asChild>
+        <Link href={`/${segments[0]}/visitor/${visitors.visitor_id}`as  `${string}:${string}`} asChild>
             
         
             <Pressable style={styles.container}>
-                <Text style={styles.title}>Status: {billings.status}</Text>
-                
-                <Text style={styles.title}>{billings.title}</Text>
-                <Text style={styles.title}>2002540{billings.billing_id}</Text>
+
+                <Text style={styles.title}>{visitors.type}</Text>
 
                 <View style={styles.desc }>
-                    <Text style={styles.sender}> Pay by {billings.dueDate}</Text>
-                    <Text style={styles.date}>MYR {billings.price}</Text>
-
+                    <Text style={styles.sender}>Sender: {visitors.name}</Text>
+                    <Text style={styles.date}>{visitors.date}</Text>
                 </View>
-                
+
+                <Text style={styles.title}>{visitors.vehicle_number ? visitors.vehicle_number : 'Walk-in Visitor'}</Text>
+                <Text style={styles.title}>status: {visitors.status}</Text>
+
+                <View style={styles.separator} />
 
 
 
@@ -41,7 +42,7 @@ const BillingListItem = ({ billings }: BillingListItemProps) => {
     );
 }
 
-export default BillingListItem;
+export default VisitorListItem;
 
 const styles = StyleSheet.create({
     container: {

@@ -33,7 +33,7 @@ const CreateFormScreen = () => {
 
     //Update/Edit the announcement follow the id pass
     const { feedback_id: idString } = useLocalSearchParams();
-    const feedback_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]);
+    const feedback_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]); //ignore
 
     
     
