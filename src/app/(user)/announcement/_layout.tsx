@@ -1,4 +1,5 @@
 import { Stack } from 'expo-router';
+import Colors from '../../../constants/Colors';
 
 export default function AnnouncementStack() {
     return (
@@ -9,7 +10,7 @@ export default function AnnouncementStack() {
                 options={{
                     title: 'Announcement',
                     headerStyle: {
-                        backgroundColor: '#2EAED1', // Change this to the color you want
+                        backgroundColor: Colors.light.tint, // Change this to the color you want
                     },
                     headerTintColor: 'white', // Change this to the color you want for the text
                 }}

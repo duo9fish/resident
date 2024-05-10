@@ -45,7 +45,7 @@ const FeedbackDetailScreen = () => {
                                     <FontAwesome
                                         name="pencil"
                                         size={25}
-                                        color={Colors.light.tint}
+                                        color={Colors.dark.tint}
                                         style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                                     />
                                 )}
@@ -53,7 +53,7 @@ const FeedbackDetailScreen = () => {
                         </Link>
                     ),
                     headerStyle: {
-                        backgroundColor: '#2EAED1',
+                        backgroundColor: Colors.light.tint,
                     },
                     headerTintColor: '#FFFFFF', // Change the title (word) color
                 }} />

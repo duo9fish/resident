@@ -8,6 +8,7 @@ import { useColorScheme } from '@components/useColorScheme';
 import { useClientOnlyValue } from '../../components/useClientOnlyValue';
 import { useAuth } from '@/providers/AuthProvider';
 
+
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -20,9 +21,9 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
   const {isAdmin} = useAuth();
 
-  //avoid user access
+  //redirect user if not authenticated
   if(!isAdmin){
-    return <Redirect href={"/"}/>
+    return <Redirect href={'/'}/>
   }
 
   return (
@@ -38,7 +39,6 @@ export default function TabLayout() {
         },
         headerShown: useClientOnlyValue(false, true),
       }}>
-
       <Tabs.Screen
         name="index"
         options={{
@@ -60,9 +60,9 @@ export default function TabLayout() {
             </Link>
           ),
           headerStyle: {
-            backgroundColor: '#2EAED1', 
+            backgroundColor: Colors.light.tint, // Change this to your desired color
           },
-          headerTintColor: 'white',
+          headerTintColor: 'white', 
         }}
       />
       <Tabs.Screen
@@ -71,19 +71,19 @@ export default function TabLayout() {
           title: 'Profile',
           tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
           headerStyle: {
-            backgroundColor: '#2EAED1', 
+            backgroundColor: Colors.light.tint, // Change this to your desired color
           },
+          headerTintColor: 'white', 
         }}
       />
-      {/* Hide top tab nav from display*/}
-      <Tabs.Screen name='announcement' options={{ href: null, headerShown: false, }} />
+  {/* Hide modules from display*/ }
+    <Tabs.Screen name='announcement' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='billing' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='feedback' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='visitor' options={{ href: null, headerShown: false, }} />
       <Tabs.Screen name='facility' options={{ href: null, headerShown: false, }} />
-      <Tabs.Screen name='contact' options={{href: null ,headerShown: false,}}/>
-
+      <Tabs.Screen name='contact' options={{ href: null, headerShown: false, }} />
     </Tabs>
-
+    
   );
 }
