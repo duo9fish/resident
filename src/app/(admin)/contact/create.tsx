@@ -185,7 +185,9 @@ const CreateContactScreen = () => {
     return (
         <View style={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Update contact' : 'Add contact' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Update contact' : 'Add contact', headerStyle: {
+                        backgroundColor: Colors.light.tint,
+                      },headerTintColor: 'white', }} />
 
             
 

@@ -36,7 +36,7 @@ const FeedbackDetailScreen = () => {
         <View>
             <Stack.Screen
                 options={{
-                    title: 'Feedback', headerRight: () => (
+                    title: 'Feedback',  headerRight: () => (
                         //ignore the error
                         <Link href={`/(user)/feedback/update?feedback_id=${feedback_id}` as `${string}:${string}`} asChild>
 

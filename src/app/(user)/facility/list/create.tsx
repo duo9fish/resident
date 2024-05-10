@@ -221,6 +221,7 @@ const CreateFormScreen = () => {
                         setShowStartTimePicker(false);
                         if (selectedTime) {
                             setStartTime(selectedTime);
+                            setFormattedStartTime(selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Update the formatted date string
                         }
                     }}
                 />
@@ -241,6 +242,7 @@ const CreateFormScreen = () => {
                         setShowEndTimePicker(false);
                         if (selectedTime) {
                             setEndTime(selectedTime);
+                            setFormattedEndTime(selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Update the formatted date string
                         }
                     }}
                 />
