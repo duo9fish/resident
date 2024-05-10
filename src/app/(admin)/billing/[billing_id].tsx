@@ -43,7 +43,10 @@ const BillingDetailScreen = () => {
         <View style={{ backgroundColor: 'white' }}>
              <Stack.Screen
                 options={{
-                    title: 'Billing', headerRight: () => (
+                    title: 'Billing', headerStyle: {
+                        backgroundColor: Colors.light.tint, // Change this to your desired color
+                      },
+                      headerTintColor: 'white',  headerRight: () => (
                         //direct to dynamic update announcement page
                         <Link href={`/(admin)/billing/create?billing_id=${billing_id}`} asChild>
                             <Pressable>
@@ -51,7 +54,7 @@ const BillingDetailScreen = () => {
                                     <FontAwesome
                                         name="pencil"
                                         size={25}
-                                        color={Colors.light.tint}
+                                        color={Colors.dark.tint}
                                         style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                                     />
                                 )}
@@ -60,7 +63,7 @@ const BillingDetailScreen = () => {
                     )
                 }} />
             <Stack.Screen options={{ title: billing?.title }} />
-            <Text>ID: {billing_id}</Text>
+            <Text style={styles.title}>ID: {billing_id}</Text>
 
             <Text style={styles.title}>MYR {billing.price}</Text>
 
@@ -93,6 +96,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 15,
+        marginLeft: 15,
+        marginTop: 5,
         //fontWeight: '700',
 
 

@@ -41,7 +41,7 @@ export default function AnnouncementStack() {
                         </Link>
                     ),
                     headerStyle: {
-                        backgroundColor: '#2EAED1',
+                        backgroundColor: Colors.light.tint,
                       },
                       headerTintColor: 'white',
                 }} />
