@@ -43,7 +43,7 @@ const VisitorDetailScreen = () => {
             <Stack.Screen
                 options={{
                     title: 'Visitor', headerStyle: {
-                        backgroundColor: '#2EAED1',
+                        backgroundColor: '#16A4E3'
                     },
                     headerTintColor: '#FFFFFF', // Change the title (word) color// headerRight: () => (
                         //     //ignore the error

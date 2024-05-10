@@ -26,14 +26,14 @@ export default function AnnouncementStack() {
                         </Link>
                     ),
                 }} /> */}
-            <Tabs.Screen name='list' options={{ title: 'Billing',href: null,headerStyle: { backgroundColor: '#2EAED1',}, headerShown: true, headerRight: () => (
+            <Tabs.Screen name='list' options={{ title: 'Billing',href: null,headerStyle: { backgroundColor: Colors.light.tint,}, headerTintColor: 'white', headerShown: true, headerRight: () => (
                         <Link href="/(admin)/billing/create" asChild>
                             <Pressable>
                                 {({ pressed }) => (
                                     <FontAwesome
                                         name="plus-square-o"
                                         size={25}
-                                        color={Colors.light.tint}
+                                        color={Colors.dark.tint}
                                         style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                                     />
                                 )}
