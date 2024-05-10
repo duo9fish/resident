@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 //test
@@ -70,7 +70,7 @@ const ContactList = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>EMERGENCY</Text>
       </View>
@@ -84,16 +84,13 @@ const ContactList = () => {
             {contact.number && <Text style={styles.number}>{contact.number}</Text>}
           </View>
           {contact.number && (
-            <TouchableOpacity
-              style={styles.callButton}
-              onPress={() => handleCallPress(contact.number)}
-            >
+            <TouchableOpacity style={styles.callButton} onPress={() => handleCallPress(contact.number)}>
               <FontAwesome5 name="phone-alt" size={24} color="#fff" />
             </TouchableOpacity>
           )}
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -101,6 +98,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  scrollViewContent: {
     paddingHorizontal: 16,
     paddingVertical: 24,
   },
