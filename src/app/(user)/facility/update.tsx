@@ -26,6 +26,7 @@ const CreateFormScreen = () => {
     const [date, setDate] = useState(new Date());
     const [formattedDate, setFormattedDate] = useState(date.toLocaleDateString()); // State for the formatted date string
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [remark, setRemark] = useState('');
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -111,7 +112,7 @@ const CreateFormScreen = () => {
         }
 
         // Save in the database
-        insertVisitor({ name, vehicle_number, contact_number,date:formattedDate,status,type}, {
+        insertVisitor({ name, vehicle_number, contact_number,date:formattedDate,status,type, remark}, {
             onSuccess: () => {
                 resetFields();
             }
