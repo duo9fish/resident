@@ -46,6 +46,7 @@ export const useInsertFacility = () => {
                 status: data.status,
                 type: data.type,
                 no_of_pax: data.no_of_pax,
+                remark: data.remark,
             });
 
             if (error) {
