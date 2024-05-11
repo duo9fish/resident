@@ -60,7 +60,7 @@ const ProfileScreen = () => {
   const handleEditProfile = () => {
     setIsEditing(true);
     // Navigate to the EditProfileScreen or show a modal for editing
-    router.push('(admin)/profile/create')
+    router.push('(user)/profile/create')
   };
 
   return (

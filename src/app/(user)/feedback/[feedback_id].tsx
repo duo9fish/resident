@@ -59,6 +59,7 @@ const FeedbackDetailScreen = () => {
                 }} />
                 
             <Stack.Screen options={{ title: feedback?.title }} />
+            <Text style={styles.title}>{feedback.category}</Text>
             <Text style={styles.title}>{feedback.title}</Text>
             <RemoteImage path={feedback?.image || defaultImage} fallback={defaultImage} style={styles.image}/>
             <View style={styles.desc}>
@@ -66,12 +67,14 @@ const FeedbackDetailScreen = () => {
                 <Text style={styles.date}>Date: {feedback.date}</Text>
 
             </View>
-            <Text style={styles.com}>com: {feedback_id}</Text>
+            <Text style={styles.content}>Status: {feedback.status}</Text>
+            
             <Text style={styles.content}>Comment: {feedback.comment}</Text>
+            <Text style={styles.content}>Remark: {feedback.remarks}</Text>
 
             {/* Only show the solution if status is "processed" */}
             {feedback.status === 'Processed' && (
-                <Text style={styles.content}>Solution :{feedback.solution}</Text>
+                <Text style={styles.content}>Solution received :{feedback.solution}</Text>
             )}
             
 

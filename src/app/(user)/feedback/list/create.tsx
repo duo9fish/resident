@@ -23,9 +23,10 @@ const CreateFormScreen = () => {
     const [title, setTitle] = useState('');
     const [comment, setComment] = useState('');
     const [date, setDate] = useState('');
-    const [status, setStatus] = useState('pending'); // Default status
+    const [status, setStatus] = useState('Pending'); // Default status
     const [category, setCategory] = useState(''); // Default status
     const [solution, setSolution] = useState(''); //set null
+    const[remark, setRemark] = useState(''); //set null
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -49,8 +50,11 @@ const CreateFormScreen = () => {
         if(updatingFeedback){
             setTitle(updatingFeedback.title);
             setComment(updatingFeedback.comment);
+            setCategory(updatingFeedback.category??'');
             setImage(updatingFeedback.image);
             setDate(updatingFeedback.date?? '');
+            setRemark(updatingFeedback.remarks?? '');
+            setSolution(updatingFeedback.solution?? '');
         }
     },[updatingFeedback]);
 
@@ -67,6 +71,7 @@ const CreateFormScreen = () => {
         setTitle('');
         setComment('');
         setImage('');
+        setRemark('');
     }
 
     //Validate the input
@@ -100,8 +105,9 @@ const CreateFormScreen = () => {
         const imagePath = await uploadImage();
 
         // Save in the database
-        insertFeedback({ title, image: imagePath, comment,date:currentdate,status,category,solution}, {
+        insertFeedback({ title, image: imagePath, comment,date:currentdate,status,category,solution,remarks:remark}, {
             onSuccess: () => {
+                Alert.alert('Success', 'Feedback submitted successfully');
                 resetFields();
                 <Redirect href={'/(user)/feedback/list/feedback'}/>
             }
@@ -119,7 +125,7 @@ const CreateFormScreen = () => {
         const imagePath = await uploadImage();
 
         //Save in the database
-        updateFeedback({ feedback_id,title, image:imagePath, comment,date:currentdate,status, category, solution}, {
+        updateFeedback({ feedback_id,title, image:imagePath, comment,date:currentdate,status, category, solution,remarks:remark}, {
             onSuccess: () => {
                 console.log(feedback_id);
                 resetFields();
@@ -229,6 +235,15 @@ const CreateFormScreen = () => {
                 value={comment}
                 onChangeText={setComment} //Updates content state on change
                 placeholder='Feedback Comment'
+                style={styles.input}
+            />
+            
+            {/* Announcement Content */}
+            <Text style={styles.label}>Remark</Text>
+            <TextInput
+                value={remark}
+                onChangeText={setRemark} //Updates content state on change
+                placeholder='Feedback Remark'
                 style={styles.input}
             />
 

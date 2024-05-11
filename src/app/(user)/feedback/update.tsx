@@ -23,9 +23,10 @@ const CreateFormScreen = () => {
     const [title, setTitle] = useState('');
     const [comment, setComment] = useState('');
     const [date, setDate] = useState('');
-    const [status, setStatus] = useState('pending'); // Default status
+    const [status, setStatus] = useState(''); // Default status
     const [category, setCategory] = useState(''); // Default status
     const [solution, setSolution] = useState(''); //set null
+    const[remark, setRemark] = useState(''); //set null
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -33,7 +34,7 @@ const CreateFormScreen = () => {
 
     //Update/Edit the announcement follow the id pass
     const { feedback_id: idString } = useLocalSearchParams();
-    const feedback_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]);
+    const feedback_id = parseFloat(typeof idString == 'string'? idString: idString?.[0]); //ignore
 
     
     
@@ -48,9 +49,13 @@ const CreateFormScreen = () => {
     useEffect(()=>{
         if(updatingFeedback){
             setTitle(updatingFeedback.title);
+            setCategory(updatingFeedback.category??'');
             setComment(updatingFeedback.comment);
             setImage(updatingFeedback.image);
             setDate(updatingFeedback.date?? '');
+            setRemark(updatingFeedback.remarks?? '');
+            setSolution(updatingFeedback.solution?? '');
+            setStatus(updatingFeedback.status?? '');
         }
     },[updatingFeedback]);
 
@@ -67,6 +72,7 @@ const CreateFormScreen = () => {
         setTitle('');
         setComment('');
         setImage('');
+        setRemark('');
     }
 
     //Validate the input
@@ -97,14 +103,13 @@ const CreateFormScreen = () => {
         if (!validateInput()) {
             return;
         }
-
         const imagePath = await uploadImage();
 
         // Save in the database
-        insertFeedback({ title, image: imagePath, comment,date:currentdate,status,category,solution}, {
+        insertFeedback({ title, image: imagePath, comment,date:currentdate,status,category,solution,remarks:remark}, {
             onSuccess: () => {
                 resetFields();
-                router.back();
+                <Redirect href={'/(user)/feedback/list/feedback'}/>
             }
         });
 
@@ -116,16 +121,16 @@ const CreateFormScreen = () => {
         if (!validateInput()) {
             return;
         }
+
         const imagePath = await uploadImage();
 
-
         //Save in the database
-        updateFeedback({ feedback_id,title, image:imagePath, comment,date:currentdate,status, category, solution}, {
+        updateFeedback({ feedback_id,title, image:imagePath, comment,date:currentdate,status, category, solution,remarks:remark}, {
             onSuccess: () => {
+                Alert.alert('Success', 'Feedback editted successfully');
                 console.log(feedback_id);
                 resetFields();
-                
-                <Redirect href={'/(user)/feedback/list/feedback'}/>
+                router.back();
 
             }
             
@@ -155,7 +160,6 @@ const CreateFormScreen = () => {
           onSuccess: () => {
             resetFields();
             //router.replace('/(user)/feedback/announcement');
-            <Redirect href={'/(user)/feedback/list/feedback'}/>
           },
         });
       };
@@ -214,7 +218,7 @@ const CreateFormScreen = () => {
                 <Picker.Item label="Security Concerns" value="Security Concerns" />
                 <Picker.Item label="Noise Complaints" value="Noise Complaints" />
                 <Picker.Item label="Billing and Payments" value="Billing and Payments" />
-                <Picker.Item label="Other Issues" value="Noise Complaints" />
+                <Picker.Item label="Other Issues" value="Other Issues" />
             </Picker>    
 
             {/* Announcement Title */}
@@ -234,7 +238,40 @@ const CreateFormScreen = () => {
                 placeholder='Feedback Comment'
                 style={styles.input}
             />
+            
+            {/* Solution */}
+            <Text style={styles.label}>Solution</Text>
+            <TextInput
+                value={solution}
+                onChangeText={setSolution} //Updates content state on change
+                placeholder='Feedback Solution'
+                style={styles.input}
+                editable={false} 
+            />
 
+            {/* Remark*/}
+            <Text style={styles.label}>Remark</Text>
+            <TextInput
+                value={remark}
+                onChangeText={setRemark} //Updates content state on change
+                placeholder='Feedback Remark'
+                style={styles.input}
+            />
+            
+            {/* show only Processed */}
+            {/* {status === 'Processed' && (
+                <Text style={styles.label}>Remark</Text>
+                
+            )}
+            {status === 'Processed' && (
+                <TextInput
+                value={remark}
+                onChangeText={setRemark} //Updates content state on change
+                placeholder='Feedback Remark'
+                style={styles.input}
+            />
+                
+            )} */}
 
 
             {/* error Message for invalid input */}

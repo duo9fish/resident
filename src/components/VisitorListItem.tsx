@@ -35,15 +35,15 @@ const VisitorListItem = ({ visitors }: VisitorListItemProps) => {
       <Pressable style={styles.container}>
         <Text style={styles.title}>{visitors.type}</Text>
         <View style={styles.desc}>
-          <Text style={styles.sender}>Sender: {visitors.name}</Text>
+          <Text style={styles.sender}>{visitors.name}</Text>
           <Text style={styles.date}>{visitors.date}</Text>
         </View>
         <View style={styles.vehicleStatusContainer}>
           <Text style={styles.vehicle}>
             {visitors.vehicle_number ? visitors.vehicle_number : 'Walk-in Visitor'}
           </Text>
-          <Pressable style={[styles.statusButton, { borderColor: 'blue' }]} onPress={handleStatusPress}>
-            <Text style={[styles.statusText, { color: getStatusColor(visitors.status || ''), fontSize: 10 }]}>
+          <Pressable style={[styles.statusButton, { borderColor: getStatusColor(visitors.status || '')}]} onPress={handleStatusPress}>
+            <Text style={[styles.statusText, { color: getStatusColor(visitors.status || ''), fontSize: 15 }]}>
               {visitors.status}
             </Text>
           </Pressable>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     marginTop: 15,
+    elevation: 5
   },
   desc: {
     justifyContent: 'space-around',
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: 600,
   },
   vehicleStatusContainer: {
     flexDirection: 'row', // Keep items in a row

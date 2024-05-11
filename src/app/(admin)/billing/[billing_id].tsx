@@ -72,7 +72,7 @@ const BillingDetailScreen = () => {
 
 
 
-            <Button onPress={addToPayment} text="Pay Now"></Button>
+            
 
 
         </View>

@@ -1,13 +1,12 @@
 import { Link, Stack, router, useLocalSearchParams } from 'expo-router';
-import { FlatList, View, Text, Image, StyleSheet, Pressable, ActivityIndicator, Alert } from 'react-native';
+import { FlatList, View, Text, Image, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 
 import billings from '@assets/data/billing';
 import Button from '@/components/Button';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
-import { initialisePaymentSheet, openPaymentSheet } from '@/lib/stripe'
+
 import { useBilling } from '@/api/billings';
-import { presentPaymentSheet } from '@stripe/stripe-react-native';
 
 // Announcement Details Page
 
@@ -16,28 +15,19 @@ const BillingDetailScreen = () => {
     //access the specific billing which user want to read
     const { billing_id:idString } = useLocalSearchParams();
     const billing_id = parseFloat(typeof idString == 'string' ? idString : idString[0])
-    
     const { data: billing, error, isLoading } = useBilling(billing_id);
-   
-    // const checkOut = async (price: number) => {
-    //     await initialisePaymentSheet(Math.floor(price * 100));
-        
-    //     await openPaymentSheet();
-    //     console.log(error);
-    
-    // }
-    
+
     const addToPayment = () => {
         if (!billing) {
             return;
         }
-        //checkOut(billing.price);
-        Alert.alert("Payment Successful");
-        
+        //console.warn("Adding to Payment", billing)
+        //router.push('/cart');
     }
 
-
     const defaultImage = 'null';
+
+    
 
     if (isLoading) {
         return <ActivityIndicator />
@@ -48,12 +38,29 @@ const BillingDetailScreen = () => {
     }
 
     return (
+        
 
         <View style={{ backgroundColor: 'white' }}>
              <Stack.Screen
                 options={{
-                    title: 'Billing', headerTintColor: '#FFFFFF', headerStyle: {backgroundColor: Colors.light.tint,// Change this line with your desired color
-                },
+                    title: 'Billing', headerStyle: {
+                        backgroundColor: Colors.light.tint, // Change this to your desired color
+                      },
+                      headerTintColor: 'white',  headerRight: () => (
+                        //direct to dynamic update announcement page
+                        <Link href={`/(admin)/billing/create?billing_id=${billing_id}`} asChild>
+                            <Pressable>
+                                {({ pressed }) => (
+                                    <FontAwesome
+                                        name="pencil"
+                                        size={25}
+                                        color={Colors.dark.tint}
+                                        style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
+                    )
                 }} />
             <Stack.Screen options={{ title: billing?.title }} />
             <Text style={styles.title}>ID: {billing_id}</Text>
@@ -61,6 +68,7 @@ const BillingDetailScreen = () => {
             <Text style={styles.title}>MYR {billing.price}</Text>
 
             <Text style={styles.title}>{billing.title}</Text>
+            <Text style={styles.title}>date: {billing.dueDate}</Text>
 
 
 

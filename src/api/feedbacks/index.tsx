@@ -47,6 +47,7 @@ export const useInsertFeedback = () => {
                 status: data.status,
                 category: data.category,
                 solution: data.solution,
+                remarks: data.remarks,
             });
 
             if (error) {

@@ -19,6 +19,7 @@ export default function BillingScreen() {
     return <Text>Failed to fetch billings</Text>
   }
 
+  
 
   return (
     <View >
