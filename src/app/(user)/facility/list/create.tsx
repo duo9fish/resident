@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 // Define the component for creating or updating a feedback
 const CreateFormScreen = () => {
-    //Add remark
+
     // State variables for title, sender, and content of the announcement
     const [start_time, setStartTime] = useState(new Date());
     const [end_time, setEndTime] = useState(new Date());
@@ -23,6 +23,7 @@ const CreateFormScreen = () => {
     const [status, setStatus] = useState('Pending');
     const [type, setType] = useState('');
     const [no_of_pax, setNoOfPax] = useState('');
+    const [remark, setRemark] = useState('')
 
     const [formattedDate, setFormattedDate] = useState(date.toLocaleDateString()); // State for the formatted date string
     const [formattedStartTime, setFormattedStartTime] = useState(start_time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // State for the formatted date string
@@ -62,6 +63,7 @@ const CreateFormScreen = () => {
             setType(updatingFacility.type || '');
             setStatus(updatingFacility.status|| '');
             setNoOfPax(updatingFacility.no_of_pax|| '');
+            setRemark(updatingFacility.remark||'');
         }
     }, [updatingFacility]);
 
@@ -78,6 +80,7 @@ const CreateFormScreen = () => {
         setDate(new Date());
         setStartTime(new Date());
         setEndTime(new Date());
+        setRemark('');
     };
 
     //Validate the input
@@ -114,7 +117,7 @@ const CreateFormScreen = () => {
         }
 
         // Save in the database
-        insertFacility({ start_time:formattedStartTime, end_time:formattedEndTime, date:formattedDate, status, type, no_of_pax }, {
+        insertFacility({ start_time:formattedStartTime, end_time:formattedEndTime, date:formattedDate, status, type, no_of_pax, remark}, {
             onSuccess: () => {
                 resetFields();
                 Alert.alert('Success', 'Facility created successfully');
@@ -129,7 +132,7 @@ const CreateFormScreen = () => {
             return;
         }
         //Save in the database
-        updateFacility({ facility_id, start_time:formattedStartTime, end_time:formattedEndTime, date:formattedDate, status, type, no_of_pax}, {
+        updateFacility({ facility_id, start_time:formattedStartTime, end_time:formattedEndTime, date:formattedDate, status, type, no_of_pax, remark}, {
             onSuccess: () => {
                 console.log(facility_id);
                 resetFields();
@@ -258,7 +261,13 @@ const CreateFormScreen = () => {
                 style={styles.input}
             />
 
-
+            <Text style={styles.label}>Remark</Text>
+            <TextInput
+                value={remark}
+                onChangeText={setRemark}
+                placeholder="Remark"
+                style={styles.input}
+            />
 
             {/* error Message for invalid input */}
             <Text style={{ color: 'red' }}>{errors}</Text>
