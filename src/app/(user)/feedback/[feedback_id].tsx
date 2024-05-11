@@ -5,6 +5,7 @@ import { useFeedback } from '@/api/feedbacks';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import RemoteImage from '@/components/RemoteImage';
+import { Card, Avatar, Icon } from 'react-native-elements';
 
 
 // Feedback Details Page
@@ -70,12 +71,16 @@ const FeedbackDetailScreen = () => {
             <Text style={styles.content}>Status: {feedback.status}</Text>
             
             <Text style={styles.content}>Comment: {feedback.comment}</Text>
-            <Text style={styles.content}>Remark: {feedback.remarks}</Text>
+            
 
             {/* Only show the solution if status is "processed" */}
             {feedback.status === 'Processed' && (
                 <Text style={styles.content}>Solution received :{feedback.solution}</Text>
             )}
+            
+            <Text style={styles.content}>Remark: {feedback.remarks}</Text>
+
+
             
 
         </View>
