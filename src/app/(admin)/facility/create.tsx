@@ -26,6 +26,7 @@ const CreateFormScreen = () => {
     const [date, setDate] = useState(new Date());
     const [formattedDate, setFormattedDate] = useState(date.toLocaleDateString()); // State for the formatted date string
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [remark, setRemark] = useState('');
 
     const [errors, setErrors] = useState('');// validation purpose
 
@@ -57,6 +58,7 @@ const CreateFormScreen = () => {
             setContactNo(updatingVisitor.contact_number);
             //setDate(updatingVisitor.date?? '');
             setType(updatingVisitor.type?? '');
+            setRemark(updatingVisitor.remark)
         }
     },[updatingVisitor]);
 
@@ -75,6 +77,7 @@ const CreateFormScreen = () => {
         setContactNo('');
         setType('');
         setDate(new Date());
+        setRemark('');
     }
 
     //Validate the input
@@ -111,7 +114,7 @@ const CreateFormScreen = () => {
         }
 
         // Save in the database
-        insertVisitor({ name, vehicle_number, contact_number,date:formattedDate,status,type}, {
+        insertVisitor({ name, vehicle_number, contact_number,date:formattedDate,status,type, remark}, {
             onSuccess: () => {
                 resetFields();
             }
@@ -125,7 +128,7 @@ const CreateFormScreen = () => {
             return;
         }
         //Save in the database
-        updateVisitor({ visitor_id,name, vehicle_number, contact_number,date:formattedDate,status,type}, {
+        updateVisitor({ visitor_id,name, vehicle_number, contact_number,date:formattedDate,status,type, remark}, {
             onSuccess: () => {
                 console.log(visitor_id);
                 resetFields();
@@ -164,7 +167,7 @@ const CreateFormScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
 
-            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Visitor Application' }} />
+            <Stack.Screen options={{ title: isUpdating ? 'Edit Feedback' : 'Facility Application' }} />
 
             {/* Set Category     */}
             <Text style={styles.label}> Category</Text> 
@@ -240,6 +243,15 @@ const CreateFormScreen = () => {
             {isUpdating && (
                 <Text onPress={confirmDelete} style={styles.textButton}> Delete </Text>
             )}
+
+            {/* Announcement Content */}
+            <Text style={styles.label}>Remark</Text>
+            <TextInput
+                value={remark}
+                onChangeText={setRemark} //Updates content state on change
+                placeholder='Feedback Remark'
+                style={styles.input}
+            />
         </ScrollView>
     )
 }
@@ -295,4 +307,3 @@ const styles = StyleSheet.create({
 })
 
 export default CreateFormScreen;
-
